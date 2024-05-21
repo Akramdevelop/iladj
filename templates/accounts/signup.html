@@ -1,0 +1,208 @@
+{% extends "main.html" %} {% load static %} {% block custom_title %} | حساب جديد
+{% endblock %} {% block custom_css %}
+<link rel="stylesheet" href="{% static 'css/login-style.css' %}" />
+{% endblock %} {% block content %}
+<div class="container">
+  <form class="form_main" id="signupform">
+    {% csrf_token %}
+    <p class="heading">التسجيل</p>
+    <div class="inputContainer">
+      <input
+        type="text"
+        class="inputField"
+        id="username"
+        name="username"
+        placeholder="اسم المستخدم"
+      />
+    </div>
+    <p class="errormsg" id="usernameerrormsg" style="display: none">
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="12"
+        height="12"
+        fill="currentColor"
+        class="bi bi-exclamation-octagon-fill"
+        viewBox="0 0 16 16"
+      >
+        <path
+          d="M11.46.146A.5.5 0 0 0 11.107 0H4.893a.5.5 0 0 0-.353.146L.146 4.54A.5.5 0 0 0 0 4.893v6.214a.5.5 0 0 0 .146.353l4.394 4.394a.5.5 0 0 0 .353.146h6.214a.5.5 0 0 0 .353-.146l4.394-4.394a.5.5 0 0 0 .146-.353V4.893a.5.5 0 0 0-.146-.353L11.46.146zM8 4c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 4.995A.905.905 0 0 1 8 4zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"
+        />
+      </svg>
+      <span id="usernameerrortxt"></span>
+    </p>
+    <div class="inputContainer">
+      <input
+        type="password"
+        class="inputField"
+        id="password"
+        name="password"
+        placeholder="كلمة السر"
+      />
+    </div>
+    <p class="errormsg" id="passworderrormsg" style="display: none">
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="12"
+        height="12"
+        fill="currentColor"
+        class="bi bi-exclamation-octagon-fill"
+        viewBox="0 0 16 16"
+      >
+        <path
+          d="M11.46.146A.5.5 0 0 0 11.107 0H4.893a.5.5 0 0 0-.353.146L.146 4.54A.5.5 0 0 0 0 4.893v6.214a.5.5 0 0 0 .146.353l4.394 4.394a.5.5 0 0 0 .353.146h6.214a.5.5 0 0 0 .353-.146l4.394-4.394a.5.5 0 0 0 .146-.353V4.893a.5.5 0 0 0-.146-.353L11.46.146zM8 4c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 4.995A.905.905 0 0 1 8 4zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"
+        />
+      </svg>
+      <span id="passworderrortxt"></span>
+    </p>
+    <div class="inputContainer">
+      <input
+        type="text"
+        class="inputField"
+        id="address"
+        name="address"
+        placeholder="العنوان"
+      />
+    </div>
+    <p class="errormsg" id="addresserrormsg" style="display: none">
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="12"
+        height="12"
+        fill="currentColor"
+        class="bi bi-exclamation-octagon-fill"
+        viewBox="0 0 16 16"
+      >
+        <path
+          d="M11.46.146A.5.5 0 0 0 11.107 0H4.893a.5.5 0 0 0-.353.146L.146 4.54A.5.5 0 0 0 0 4.893v6.214a.5.5 0 0 0 .146.353l4.394 4.394a.5.5 0 0 0 .353.146h6.214a.5.5 0 0 0 .353-.146l4.394-4.394a.5.5 0 0 0 .146-.353V4.893a.5.5 0 0 0-.146-.353L11.46.146zM8 4c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 4.995A.905.905 0 0 1 8 4zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"
+        />
+      </svg>
+      <span id="addresserrortxt"></span>
+    </p>
+    <div class="inputContainer">
+      <input
+        type="text"
+        class="inputField"
+        id="phone-number"
+        name="phoneNumber"
+        placeholder="رقم الهاتف"
+      />
+    </div>
+    <p class="errormsg" id="phoneerrormsg" style="display: none">
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="12"
+        height="12"
+        fill="currentColor"
+        class="bi bi-exclamation-octagon-fill"
+        viewBox="0 0 16 16"
+      >
+        <path
+          d="M11.46.146A.5.5 0 0 0 11.107 0H4.893a.5.5 0 0 0-.353.146L.146 4.54A.5.5 0 0 0 0 4.893v6.214a.5.5 0 0 0 .146.353l4.394 4.394a.5.5 0 0 0 .353.146h6.214a.5.5 0 0 0 .353-.146l4.394-4.394a.5.5 0 0 0 .146-.353V4.893a.5.5 0 0 0-.146-.353L11.46.146zM8 4c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 4.995A.905.905 0 0 1 8 4zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"
+        />
+      </svg>
+      <span id="phoneerrortxt"></span>
+    </p>
+    <button id="button" name="btnsignup">تسجيل دخول</button>
+    <a class="forgotLink" href="#">هل نسيت كلمة السر؟</a>
+  </form>
+</div>
+{% endblock %} {% block custom_js %}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+<script>
+  let signupForm = document.getElementById("signupform");
+  let usernameInput = document.getElementById("username");
+  let usernameMsg = document.getElementById("usernameerrormsg");
+  let usernameTxt = document.getElementById("usernameerrortxt");
+  let passwordInput = document.getElementById("password");
+  let passwordMsg = document.getElementById("passworderrormsg");
+  let passwordTxt = document.getElementById("passworderrortxt");
+  let addressInput = document.getElementById("address");
+  let addressMSG = document.getElementById("addresserrormsg");
+  let addressTxt = document.getElementById("addresserrortxt");
+  let phoneNumberInput = document.getElementById("phone-number");
+  let phoneNumberMsg = document.getElementById("phoneerrormsg");
+  let phoneNumberTxt = document.getElementById("phoneerrortxt");
+  let isUsernameValid = false;
+  let isPasswordValid = false;
+  let isAddressValid = false;
+  let isPhoneValid = false;
+
+  $(document).on("submit", "#signupform", function (e) {
+    e.preventDefault();
+    if (usernameInput.value == "") {
+      usernameTxt.innerText = "لا يمكن ترك هذا الحقل فارغ";
+      usernameMsg.style = "display: block";
+    } else {
+      usernameMsg.style = "display: none";
+      isUsernameValid = true;
+    }
+    if (passwordInput.value == "") {
+      passwordTxt.innerText = "لا يمكن ترك هذا الحقل فارغ";
+      passwordMsg.style = "display: block";
+    } else if (passwordInput.value.length < 8) {
+      passwordTxt.innerText = "يجب أن تحتوي كلمة السر على 8 أحرف على أﻷقل";
+      passwordMsg.style = "display: block";
+    } else {
+      passwordMsg.style = "display: none";
+      isPasswordValid = true;
+    }
+    if (addressInput.value == "") {
+      addressTxt.innerText = "لا يمكن ترك هذا الحقل فارغ";
+      addressMSG.style = "display: block";
+    } else {
+      addressMSG.style = "display: none";
+      isAddressValid = true;
+    }
+    if (phoneNumberInput.value == "") {
+      phoneNumberTxt.innerText = "لا يمكن ترك هذا الحقل فارغ";
+      phoneNumberMsg.style = "display: block";
+    } else if (
+      !phoneNumberInput.value.match(/^01[0125][0-9]{8}$/g) &&
+      !phoneNumberInput.value.match(/^[+]201[0125][0-9]{8}$/g)
+    ) {
+      phoneNumberTxt.innerText = "الرجاء إدخال رقم صالح";
+      phoneNumberMsg.style = "display: block";
+    } else {
+      phoneNumberMsg.style = "display: none";
+      isPhoneValid = true;
+    }
+
+    if (isUsernameValid && isPasswordValid && isAddressValid && isPhoneValid) {
+      $.ajax({
+        type: "POST",
+        url: "../signuppost/",
+        data: {
+          username: usernameInput.value,
+          password: passwordInput.value,
+          address: addressInput.value,
+          phoneNumber: phoneNumberInput.value,
+          btnsignup: 1,
+          csrfmiddlewaretoken: $("input[name=csrfmiddlewaretoken]").val(),
+        },
+        success: function (response) {
+          if ("err1" in response) {
+            usernameTxt.innerText = "اسم المستخدم موجود بالفعل";
+            usernameMsg.style = "display: block";
+          } else if ("err2" in response) {
+            passwordTxt.innerText =
+              "يجب أن تحتوي كلمة السر على 8 أحرف على أﻷقل";
+            passwordMsg.style = "display: block";
+          } else if ("err3" in response) {
+            phoneNumberTxt.innerText = "الرجاء إدخال رقم صالح";
+            phoneNumberMsg.style = "display: block";
+          } else if (response.success) {
+            window.location.href = "/";
+          } else {
+            console.log(response.message);
+          }
+        },
+        error: function (xhr, status, error) {
+          console.log(JSON.parse(xhr.responseText).error);
+        },
+      });
+    }
+  });
+
+  // handle submit
+</script>
+{% endblock %}

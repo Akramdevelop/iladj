@@ -1,0 +1,242 @@
+{% extends "main.html" %} {% load static %} {% block custom_title %} | الحسابات
+{% endblock %} {% block custom_css %}
+<link rel="stylesheet" href="{% static 'css/bootstrap.css' %}" />
+<link rel="stylesheet" href="{% static 'css/style.css' %}" />
+<link rel="stylesheet" href="{% static 'css/styleSwitchoddoctor.css' %}" />
+{% endblock %} {% block styling %}
+<style>
+  label {
+    color: white;
+  }
+
+  .right-side {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 15px;
+    flex-wrap: wrap;
+    gap: 15px;
+  }
+
+  .form-date {
+    direction: rtl;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-top: 15px;
+    flex-wrap: wrap;
+    width: 35%;
+    gap: 10px;
+  }
+
+  .dashboard {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: auto;
+  }
+
+  .contain {
+    width: 55vw;
+    height: 63vh;
+    margin-top: 10px;
+    background-color: white;
+    overflow: auto;
+  }
+
+  .number_of_checks {
+    direction: rtl;
+    display: flex;
+  }
+
+  span {
+    font-weight: bold;
+    color: darkgoldenrod;
+  }
+  @media (max-width: 1024px) {
+    .contain {
+      width: 100%;
+    }
+  }
+</style>
+{% endblock %} {% block content %}
+<div class="containeer">
+  {% include 'parts/_navbar.html' %}
+
+  <div class="right-side">
+    <form id="dateForm" action="" class="form-date">
+      <div
+        style="
+          display: flex;
+          justify-content: center;
+          flex-wrap: wrap;
+          gap: 10px;
+        "
+      >
+        <div>
+          <label for="customDate" style="direction: rtl">من</label>
+          <input
+            type="date"
+            id="datestart"
+            name="datestart"
+            pattern="\d{4}-\d{2}-\d{2}"
+          />
+        </div>
+        <div>
+          <label for="customDate_2" style="direction: rtl">الي</label>
+          <input
+            type="date"
+            id="dateend"
+            name="dateend"
+            pattern="\d{4}-\d{2}-\d{2}"
+          />
+        </div>
+      </div>
+      <div>
+        <button class="btn btn-success">تطبيق</button>
+      </div>
+    </form>
+  </div>
+  <div class="dashboard mb-4">
+    <div class="contain">
+      <div class="number-of-checks">
+        <div
+          style="
+            display: flex;
+            direction: rtl;
+            justify-content: space-around;
+            text-align: center;
+            margin-top: 4em;
+          "
+        >
+          <div>
+            <h5>عدد الكشوفات</h5>
+            <span id="checksspan"></span>
+          </div>
+          <div>
+            <h5>الحساب</h5>
+            <span id="checksprice"></span>
+          </div>
+        </div>
+        <div
+          style="
+            display: flex;
+            direction: rtl;
+            justify-content: space-around;
+            text-align: center;
+            margin-top: 4em;
+          "
+        >
+          <div style="width: 126px">
+            <h5>عدد اعادات الكشوفات</h5>
+            <span id="rechecksspan"></span>
+          </div>
+          <div>
+            <h5>الحساب</h5>
+            <span id="rechecksprice"></span>
+          </div>
+        </div>
+        <div
+          style="
+            display: flex;
+            direction: rtl;
+            justify-content: space-around;
+            text-align: center;
+            margin-top: 4em;
+          "
+        >
+          <div style="width: 120px">
+            <h5>متابعة</h5>
+            <span id="operationsspan"></span>
+          </div>
+          <div>
+            <h5>الحساب</h5>
+            <span id="operationsprice"></span>
+          </div>
+        </div>
+        <div
+          style="
+            display: flex;
+            direction: rtl;
+            justify-content: space-around;
+            text-align: center;
+            margin-top: 4em;
+          "
+        >
+          <div style="width: 120px">
+            <h5>الاجمالي</h5>
+            <span id="resultspan"></span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %} {% block custom_js %}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+<script>
+  let result = 0;
+  $(document).ready(function () {
+    function getCalculation(dateStart, dateEnd) {
+      $.ajax({
+        type: "GET",
+        url: "../accounts/getcalculation/",
+        data: {
+          dateStart: dateStart,
+          dateEnd: dateEnd,
+          csrfmiddlewaretoken: $("input[name=csrfmiddlewaretoken]").val(),
+        },
+        success: function (response) {
+          if ("success" in response) {
+            let checks = response.success.checks;
+            let rechecks = response.success.rechecks;
+            let operations = response.success.operations;
+            $("#checksspan").text(checks[0]);
+            $("#rechecksspan").text(rechecks[0]);
+            $("#operationsspan").text(operations[0]);
+            if (checks[0] != null) {
+              $("#checksprice").text(parseInt(checks[0]) * parseInt(checks[1]));
+              result = result + parseInt(checks[0]) * parseInt(checks[1]);
+            }
+            if (rechecks[0] != null) {
+              $("#rechecksprice").text(
+                parseInt(rechecks[0]) * parseInt(rechecks[1])
+              );
+              result = result + parseInt(rechecks[0]) * parseInt(rechecks[1]);
+            }
+            if (rechecks[0] != null) {
+              $("#operationsprice").text(
+                parseInt(operations[0]) * parseInt(operations[1])
+              );
+              result =
+                result + parseInt(operations[0]) * parseInt(operations[1]);
+            }
+            $("#resultspan").text(result);
+          }
+          if ("error" in response) {
+            console.error(response.error);
+          }
+          if ("message" in response) {
+            alert(response.message);
+          }
+        },
+        error: function (xhr, status, error) {
+          console.log("Error occurred: ", error);
+          console.log("XHR: ", xhr);
+        },
+      });
+    }
+    function getComputedDate() {
+      let dateStart = $("#datestart").val();
+      let dateEnd = $("#dateend").val();
+      return [dateStart, dateEnd];
+    }
+    $(document).on("submit", "#dateForm", function (e) {
+      e.preventDefault();
+      getCalculation(getComputedDate()[0], getComputedDate()[1]);
+    });
+  });
+</script>
+{% endblock %}

@@ -1,0 +1,19 @@
+.main-contain{
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    width: 100%;
+    flex-wrap: wrap;
+}
+
+.buttons{
+    height: 40vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 5px;
+}
+
+

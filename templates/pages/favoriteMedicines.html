@@ -1,0 +1,131 @@
+{% extends "main.html" %} {% load static %} {% block custom_title %} | الأدوية
+المفضلة {% endblock %} {% block custom_css %}
+<link rel="stylesheet" href="{% static 'css/style.css' %}" />
+<link rel="stylesheet" href="{% static 'css/bootstrap.css' %}" />
+<link rel="stylesheet" href="{% static 'css/doctorDashboard-style.css' %}" />
+{% endblock %} {% block content %}
+<div class="main-container">
+  <div class="right-side">
+    <div class="search-box" style="display: flex; justify-content: center">
+      <form id="addMedForm">
+        {% csrf_token %}
+        <input
+          type="text"
+          id="addMed"
+          placeholder="اضافة دواء"
+          style="direction: rtl; padding-right: 10px"
+        />
+        <button type="submit" id="addMedbtn" class="btn btn-warning">
+          اضافة
+        </button>
+      </form>
+    </div>
+    <div class="customer">
+      <div
+        class="names"
+        id="meds"
+        style="
+          display: flex;
+          flex-direction: column;
+          justify-content: flex-start;
+          gap: 10px;
+          align-items: center;
+          padding-top: 20px;
+        "
+      ></div>
+    </div>
+  </div>
+</div>
+{% endblock %} {% block custom_js %}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+<script>
+  function clearForm() {
+    $("addMed").val("");
+  }
+  function getMedicines() {
+    $.ajax({
+      type: "Get",
+      url: "../accounts/getMedicines/",
+      data: {
+        csrfmiddlewaretoken: $("input[name=csrfmiddlewaretoken]").val(),
+      },
+      success: function (response) {
+        if (response.success) {
+          meds = response.success;
+          medsContainer = $("#meds");
+          medsContainer[0].innerHTML = "";
+          if (meds != "Void") {
+            meds.forEach((med) => {
+              let medname = med.name;
+              let medid = med.id;
+              medsContainer.append(`
+        <div class="second-form" style="align-items: center;">
+          <div type="button" onclick=deleteMedicine(${medid}) class="btn btn-danger" style="height: 30px;display: flex;align-items: center;">حذف</div>
+          <button class="_name" type="button" style="width: 80%">${medname}</button>
+        </div>`);
+            });
+          }
+        } else {
+          console.error(response);
+        }
+      },
+      error: function (xhr, status, error) {
+        console.log("Error occurred: ", error);
+        console.log("XHR: ", xhr);
+      },
+    });
+  }
+  function addMedicine() {
+    medicinename = $("#addMed").val();
+    $.ajax({
+      type: "POST",
+      url: `../accounts/addMedicine/`,
+      data: {
+        medicinename: medicinename,
+        csrfmiddlewaretoken: $("input[name=csrfmiddlewaretoken]").val(),
+      },
+      success: function (response) {
+        if (response.success) {
+          alert(response.success);
+          getMedicines();
+        } else {
+          console.error(response);
+        }
+      },
+      error: function (xhr, status, error) {
+        console.log("Error occurred: ", error);
+        console.log("XHR: ", xhr);
+      },
+    });
+  }
+  function deleteMedicine(medid) {
+    $.ajax({
+      type: "POST",
+      url: `../accounts/deleteMedicine/${medid}/`,
+      data: {
+        csrfmiddlewaretoken: $("input[name=csrfmiddlewaretoken]").val(),
+      },
+      success: function (response) {
+        if (response.success) {
+          alert(response.success);
+        } else {
+          console.error(response);
+        }
+      },
+      error: function (xhr, status, error) {
+        console.log("Error occurred: ", error);
+        console.log("XHR: ", xhr);
+      },
+    });
+  }
+  $(document).ready(function () {
+    clearForm();
+    getMedicines();
+    $("#addMedForm").on("submit", function (e) {
+      e.preventDefault();
+      addMedicine();
+    });
+    setInterval(getMedicines, 1000);
+  });
+</script>
+{% endblock %}

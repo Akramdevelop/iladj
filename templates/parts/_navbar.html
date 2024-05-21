@@ -1,0 +1,42 @@
+{% load static %}
+<header class="header">
+  {% if user.is_authenticated %}
+  <form action="">
+    <a href="{% url 'logout' %}" style="color: white"
+      ><i class="fa-solid fa-right-from-bracket logout"></i
+    ></a>
+    <span style="color: white" class="ml-2">{{ username }}</span>
+    <a href="{% url 'changePassword' %}" class="btn btn-sm btn-info">تغيير كلمة السر</a>
+  </form>
+  {% endif %}
+  <div class="left_side">
+    <div class="logo">
+      <a href="{% url 'index' %}">
+        <img
+          class="logo_2"
+          src="{% static 'images/علاج.jpg' %}"
+          alt="Your browser does not support this image"
+      /></a>
+    </div>
+    <div class="contact-icon" style="color: white">
+      <i class="fa-sharp fa-solid fa-phone">01011905009</i>
+    </div>
+  </div>
+  <nav class="navigation">
+    <div class="search-box">
+      <input
+        type="text"
+        placeholder="ابحث..."
+        style="direction: rtl; padding-right: 10px"
+      />
+      <button type="submit">ابحث</button>
+    </div>
+    <ul class="links">
+      <li><a href="{% url 'index' %}">الرئيسية</a></li>
+      <li><a href="{% url 'signin' %}">تسجيل الدخول</a></li>
+      <li><a href="{% url 'signup' %}">التسجيل</a></li>
+      <li><a href="{% url 'services' %}">الخدمات</a></li>
+      <li><a href="#">تواصل معنا</a></li>
+    </ul>
+  </nav>
+</header>

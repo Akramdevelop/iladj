@@ -1,0 +1,161 @@
+*{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+body{
+    display: flex;
+    justify-content: center;
+    background: linear-gradient(to top, #09203f 0%, #537895 100%);
+}
+
+
+.header{
+    display: flex;
+    justify-content: space-around;
+    align-items: center; 
+    color: white;
+    width: 100%;
+}   
+
+.containeer{
+    width: 97%;
+    margin-top: 20px;
+}
+
+.welcome{
+    font-size: x-large;
+    direction: rtl;
+    margin-left: 15px;
+}
+.header {
+    background-color: #f8f8f8;
+    padding: 20px;
+    background-color: rgba(0, 8, 255, 0.563);
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    animation: header-load 1000ms ease 400ms;
+    position: sticky;
+    top: 0;
+}
+.links{
+    animation: header-load 1200ms ease 400ms;
+    font-size: small;
+    margin-top: 12px;
+}
+@keyframes header-load {
+    0%{
+        transform: translateY(-1000px);
+    }
+    100%{
+        transform: translateY(0);
+    }
+}
+
+.logo {
+    font-size: 24px;
+    font-weight: bold;
+    color: #333;
+    margin-left: 35px;
+}
+
+.log{
+    border: black 2px solid;
+    border-radius: 17%;
+    color: white;
+}
+
+.search-box {
+    margin-top: 10px;
+    outline: none;
+}
+.search-box input[type="text"] {
+    padding: 5px;
+    width: 250px;
+}
+
+.search-box button {
+    padding: 5px 10px;
+    background-color: blue;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+}
+
+.left_side{
+    display: flex;
+    width: 100px;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+.logo_2{
+    width: 100px;
+}
+
+.navigation, .left_side {
+    margin-top: 10px;
+    animation: img-load 1000ms ease 400ms; 
+}
+@keyframes nav-load {
+    0%{
+        transform: translateY(-1000px);
+    }
+    100%{
+        transform: translateY(0);
+    }
+}
+.navigation ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+.navigation ul li {
+    display: inline-block;
+    margin-right: 10px;
+}
+
+.navigation ul li a {
+    text-decoration: none;
+    color: white;
+}
+
+.navigation ul li a:hover{
+    background-color: blue;
+    color: red;
+    border-radius: 5px;
+}
+
+.main{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    width: 100%;
+    background-color: #09203f;
+    margin-top: 10px;
+    color: white;
+    animation: main-animated 2000ms ease 400ms; 
+}
+
+@keyframes main-animated {
+    0%{
+        transform: translateY(-1000px);
+    }
+    100%{
+        transform: translateY(0);
+    }
+}
+
+.doctor-img{
+    width: 100%;
+    margin-top: 15px;
+}
+
+.doctor-access{
+    display: flex;
+    justify-content: flex-end;
+}

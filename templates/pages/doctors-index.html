@@ -1,0 +1,69 @@
+{% extends "main.html" %} {% load static %} {% block custom_title %} | الأطباء
+{% endblock %} {% block custom_css %}
+<link rel="stylesheet" href="{% static 'css/bootstrap.css' %}" />
+<link rel="stylesheet" href="{% static 'css/style.css' %}" />
+<link rel="stylesheet" href="{% static 'css/styel-index.css' %}" />
+{% endblock %} {% block content %}
+<div class="containeer">
+  {% include 'parts/_navbar.html' %}
+  <section class="doctors">
+    <div class="card" style="width: 18rem; margin-top: 15px">
+      <img
+        class="card-img-top"
+        src="{% static 'images/our professional doctor (1).png' %}"
+        alt="Card image cap"
+      />
+      <div class="card-body">
+        <h5 class="card-title">Card title</h5>
+        <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
+        <p class="card-text">
+          Some quick example text to build on the card title and make up the
+          bulk of the card's content.
+        </p>
+        <button class="btn btn-primary">
+          <a href="#" class="card-link">Chat with doctor</a>
+        </button>
+        <!-- <a href="#" class="card-link"></a> -->
+      </div>
+    </div>
+    <div class="card" style="width: 18rem; margin-top: 15px">
+      <img
+        class="card-img-top"
+        src="{% static 'images/our professional doctor (1).png' %}"
+        alt="Card image cap"
+      />
+      <div class="card-body">
+        <h5 class="card-title">Card title</h5>
+        <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
+        <p class="card-text">
+          Some quick example text to build on the card title and make up the
+          bulk of the card's content.
+        </p>
+        <button class="btn btn-primary">
+          <a href="#" class="card-link">Chat with doctor</a>
+        </button>
+        <!-- <a href="#" class="card-link"></a> -->
+      </div>
+    </div>
+    <div class="card" style="width: 18rem; margin-top: 15px">
+      <img
+        class="card-img-top"
+        src="{% static 'images/our professional doctor (1).png' %}"
+        alt="Card image cap"
+      />
+      <div class="card-body">
+        <h5 class="card-title">Card title</h5>
+        <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
+        <p class="card-text">
+          Some quick example text to build on the card title and make up the
+          bulk of the card's content.
+        </p>
+        <button class="btn btn-primary">
+          <a href="#" class="card-link">Chat with doctor</a>
+        </button>
+        <!-- <a href="#" class="card-link"></a> -->
+      </div>
+    </div>
+  </section>
+</div>
+{% endblock %} {% block custom_js %}{% endblock %}

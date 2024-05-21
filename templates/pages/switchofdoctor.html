@@ -1,0 +1,21 @@
+{% extends "main.html" %} {% load static %} {% block custom_title %} | صفحة
+الأطباء {% endblock %} {% block custom_css %}
+<link rel="stylesheet" href="{% static 'css/bootstrap.css' %}" />
+<link rel="stylesheet" href="{% static 'css/style.css' %}" />
+<link rel="stylesheet" href="{% static 'css/styleSwitchoddoctor.css' %}" />
+{% endblock %} {% block content %}
+<div class="containeer">
+  {% include 'parts/_navbar.html' %}
+  <div class="buttons">
+    <a href="{% url 'calculation' %}"
+      ><button class="btn btn-warning btn-lg">الحسابات</button></a
+    >
+    <a href="{% url 'doctorDashboard' %}"
+      ><button class="btn btn-warning btn-lg">لوحة التحكم</button></a
+    >
+    <a href="{% url 'favoriteMedicine' %}"
+      ><button class="btn btn-warning btn-lg">الأدوية المفضلة</button></a
+    >
+  </div>
+</div>
+{% endblock %} {% block custom_js %} {% endblock %}

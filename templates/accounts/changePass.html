@@ -1,0 +1,121 @@
+{% extends "main.html" %} {% load static %} {% block custom_title %} | تغيير كلمة السر
+{% endblock %} {% block custom_css %}
+<link rel="stylesheet" href="{% static 'css/login-style.css' %}" />
+{% endblock %} {% block content %}
+<div class="container">
+  <form id="changeForm" action="" class="form_main">
+    {% csrf_token %}
+    <p class="heading">تغيير كلمة السر</p>
+    <div class="inputContainer">
+      <input type="password" value="" class="inputField" id="password" placeholder="كلمة السر الجديدة">
+    </div> 
+    <p class="errormsg" id="passworderrormsg" style="display: none">
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="12"
+        height="12"
+        fill="currentColor"
+        class="bi bi-exclamation-octagon-fill"
+        viewBox="0 0 16 16"
+      >
+        <path
+          d="M11.46.146A.5.5 0 0 0 11.107 0H4.893a.5.5 0 0 0-.353.146L.146 4.54A.5.5 0 0 0 0 4.893v6.214a.5.5 0 0 0 .146.353l4.394 4.394a.5.5 0 0 0 .353.146h6.214a.5.5 0 0 0 .353-.146l4.394-4.394a.5.5 0 0 0 .146-.353V4.893a.5.5 0 0 0-.146-.353L11.46.146zM8 4c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 4.995A.905.905 0 0 1 8 4zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"
+        />
+      </svg>
+      <span id="passworderrortxt"></span>
+    </p>
+    <div class="inputContainer">
+      <input type="password" value="" class="inputField" id="repassword" placeholder="اعد كتابة كلمة السر">
+    </div>
+    <p class="errormsg" id="repassworderrormsg" style="display: none">
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="12"
+        height="12"
+        fill="currentColor"
+        class="bi bi-exclamation-octagon-fill"
+        viewBox="0 0 16 16"
+      >
+        <path
+          d="M11.46.146A.5.5 0 0 0 11.107 0H4.893a.5.5 0 0 0-.353.146L.146 4.54A.5.5 0 0 0 0 4.893v6.214a.5.5 0 0 0 .146.353l4.394 4.394a.5.5 0 0 0 .353.146h6.214a.5.5 0 0 0 .353-.146l4.394-4.394a.5.5 0 0 0 .146-.353V4.893a.5.5 0 0 0-.146-.353L11.46.146zM8 4c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 4.995A.905.905 0 0 1 8 4zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"
+        />
+      </svg>
+      <span id="repassworderrortxt"></span>
+    </p>  
+<button id="changebtn">تغيير</button>
+    <a class="forgotLink" href="#">هل نسيت كلمة السر؟</a>
+</form>
+</div>
+</div>
+{% endblock %} {% block custom_js %}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+<script>
+  let signupForm = document.getElementById("signupform");
+  let passwordInput = document.getElementById("password");
+  let passwordMsg = document.getElementById("passworderrormsg");
+  let passwordTxt = document.getElementById("passworderrortxt");
+  let repasswordInput = document.getElementById("repassword");
+  let repasswordMsg = document.getElementById("repassworderrormsg");
+  let repasswordTxt = document.getElementById("repassworderrortxt");
+  let isPasswordValid = false;
+  let isRepasswordValid = false;
+
+  $(document).on("submit", "#changeForm", function (e) {
+    e.preventDefault();
+    if (passwordInput.value == "") {
+      passwordTxt.innerText = "لا يمكن ترك هذا الحقل فارغ";
+      passwordMsg.style = "display: block";
+    } else if (passwordInput.value.length < 8) {
+      passwordTxt.innerText = "يجب أن تحتوي كلمة السر على 8 أحرف على أﻷقل";
+      passwordMsg.style = "display: block";
+    } else {
+      passwordMsg.style = "display: none";
+      isPasswordValid = true;
+    }
+    if (repasswordInput.value == "") {
+      repasswordTxt.innerText = "لا يمكن ترك هذا الحقل فارغ";
+      repasswordMsg.style = "display: block";
+    } else if (passwordInput.value != repasswordInput.value) {
+      repasswordTxt.innerText = "كلمتي السر غير متطابقتين";
+      repasswordMsg.style = "display: block";
+    } else {
+      repasswordMsg.style = "display: none";
+      isRepasswordValid = true;
+    }
+
+    if (isPasswordValid && isRepasswordValid) {
+      data = {
+          password: passwordInput.value,
+          repassword: repasswordInput.value,
+          repassword: repasswordInput.value,
+          btnchange: 0,
+          csrfmiddlewaretoken: $("input[name=csrfmiddlewaretoken]").val()
+        }
+        if (event.submitter && event.submitter.id === "changebtn") {
+          data.btnchange = 1
+        }
+      $.ajax({
+        type: "POST",
+        url: "../changePasswordPost/",
+        data: data,
+        success: function (response) {
+          if ("err2" in response) {
+            passwordTxt.innerText =
+              "يجب أن تحتوي كلمة السر على 8 أحرف على أﻷقل";
+            passwordMsg.style = "display: block";
+          } else if (response.success) {
+            alert(response.success)
+          } else {
+            console.log(response.message);
+          }
+        },
+        error: function (xhr, status, error) {
+          console.log(JSON.parse(xhr.responseText).error);
+        },
+      });
+    }
+  });
+
+  // handle submit
+</script>
+{% endblock %}

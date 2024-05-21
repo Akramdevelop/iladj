@@ -1,0 +1,57 @@
+*{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+body{
+    display: flex;
+    justify-content: center;
+    background: linear-gradient(to left, #09203f 0%, #537895 100%);
+    /* direction: rtl; */
+    height:1000px;
+}
+::-webkit-scrollbar {
+    width: 10px;
+}
+/* Track */
+::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 5px blue; 
+    border-radius: 10px;
+    margin-top: 20px;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: blue; 
+    border-radius: 10px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 0, 0.76); 
+}
+
+header{
+    z-index: 1000;
+}
+
+.doctors{
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    z-index: 0;
+    animation: doctors 1000ms ease 400ms;
+}
+a{
+    color: white;
+    text-decoration: none;
+}
+
+@keyframes doctors {
+    0%{
+        transform: translateX(-1000px);
+    }
+    100%{
+        transform: translateX(0);
+    }
+}

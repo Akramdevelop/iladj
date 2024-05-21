@@ -1,0 +1,684 @@
+{% extends "main.html" %} {% load static %} {% block custom_title %} | صفحة طبيب
+النساء {% endblock %} {% block custom_css %}
+<link rel="stylesheet" href="{% static 'css/bootstrap.css' %}" />
+<link rel="stylesheet" href="{% static 'css/style.css' %}" />
+<link rel="stylesheet" href="{% static 'css/doctorDashboard-style.css' %}" />
+{% endblock %} {% block styling %}
+<!-- <style>
+  header {
+    z-index: 1000;
+  }
+
+  .Data-nesa {
+    width: 100%;
+    height: 74vh;
+    display: flex;
+    justify-content: center;
+    margin-top: 15px;
+  }
+
+  .Data-nesa form {
+    width: max-content;
+    height: max-content;
+    background-color: white;
+  }
+
+  /* .data {
+          width: 60vw;
+          height: 60vh;
+          background-color: blue;
+          display: flex;
+          gap: 10px;
+          flex-wrap: wrap;
+          justify-content: center;
+      } */
+
+  label {
+    color: blue;
+  }
+
+  .data div {
+    margin-top: 15px;
+  }
+
+  input {
+    text-align: center;
+    padding: 3px;
+  }
+
+  textarea {
+    height: 31vh;
+  }
+
+  div {
+    height: min-content;
+  }
+  .scrollable-container {
+    overflow-x: auto;
+    white-space: nowrap;
+  }
+
+  .card {
+    display: inline-block;
+    width: 200px;
+    height: 300px;
+    background-color: #f1f1f1;
+    margin-right: 10px;
+    padding: 10px;
+  }
+
+  .scroll_form {
+    display: flex;
+    justify-content: center;
+    margin: 15px;
+  }
+
+  .first_data {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    direction: rtl;
+  }
+
+  .first_data div {
+    margin-right: 10px;
+  }
+
+  input {
+    border: 2px solid blue;
+  }
+
+  textarea {
+    border: 2px solid blue;
+    resize: none;
+  }
+  @media screen and (max-width: 557px) {
+    label {
+      display: flex;
+    }
+  }
+
+  /* @media screen and (max-width: 480px) {
+          .Data-nesa form {
+              width: 95vw;
+              height: auto;
+          }
+
+          .data {
+              width: 100%;
+              height: auto
+          }
+      }
+
+      @media only screen and (max-width: 1024px) and (min-width: 769px){
+          .Data-nesa form {
+              width: 90vw;
+          }
+
+          .data {
+              width: 100%;
+          }
+          .Data-nesa form {
+              width: 95vw;
+              height: 65vh;
+          }
+
+          .data {
+              width: 90%;
+              height: auto;
+          }
+
+          article{
+              width: 100%;
+              justify-content: center;
+              flex-wrap: wrap;
+          }
+
+          @media only screen and (max-width: 2560px) and (min-width: 1025px){
+              article{
+                  width: 100%;
+                  justify-content: center;
+                  flex-wrap: wrap;
+                  gap: 10%;
+              }
+              label{
+                  color: red;
+              }
+          }
+      } */
+</style> -->
+<style>
+  header {
+    z-index: 1000;
+  }
+
+  .Data-nesa {
+    width: 100%;
+    height: 74vh;
+    display: flex;
+    justify-content: center;
+    margin-top: 15px;
+  }
+
+  .Data-nesa form {
+    width: max-content;
+    height: max-content;
+    background-color: white;
+  }
+
+  /* .data {
+          width: 60vw;
+          height: 60vh;
+          background-color: blue;
+          display: flex;
+          gap: 10px;
+          flex-wrap: wrap;
+          justify-content: center;
+      } */
+
+  label {
+    color: blue;
+  }
+
+  .data div {
+    margin-top: 15px;
+  }
+
+  input {
+    text-align: center;
+    padding: 3px;
+  }
+
+  textarea {
+    height: 31vh;
+  }
+
+  div {
+    height: min-content;
+  }
+  .scrollable-container {
+    overflow-x: auto;
+    white-space: nowrap;
+  }
+
+  .card {
+    display: inline-block;
+    width: 200px;
+    height: 300px;
+    background-color: #f1f1f1;
+    margin-right: 10px;
+    padding: 10px;
+  }
+
+  .scroll_form {
+    display: flex;
+    justify-content: center;
+    margin: 15px;
+  }
+
+  .first_data {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    direction: rtl;
+  }
+
+  .first_data div {
+    margin-right: 10px;
+  }
+
+  .date {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    direction: rtl;
+  }
+
+  .date div {
+    margin: 15px;
+  }
+
+  .select {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    direction: rtl;
+  }
+
+  .select div {
+    margin: 15px;
+  }
+  .first_data {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    direction: rtl;
+  }
+  input {
+    border: 2px solid blue;
+  }
+
+  textarea {
+    border: 2px solid blue;
+    resize: none;
+  }
+  @media screen and (max-width: 557px) {
+    label {
+      display: flex;
+    }
+  }
+
+  /* added by back-end */
+  .modal-title {
+    width: 60px;
+  }
+  .modal-header {
+    align-items: center;
+  }
+  .modal-dialog {
+    margin: 2.5vh 0 0 1vw;
+  }
+</style>
+
+{% endblock %} {% block content %}
+<div class="containeer">
+  {% include 'parts/_navbar.html' %}
+  <footer>
+    <form
+      id="nessapicsForm"
+      class="scroll_form"
+      style="display: flex; flex-wrap: wrap"
+    >
+      <div>
+        <input
+          id="nessacardImg"
+          type="file"
+          style="border: none"
+          accept="image/*"
+        />
+      </div>
+      <div>
+        <button class="btn btn-primary">اضافة صور</button>
+        <button
+          id="showpic"
+          type="button"
+          class="btn btn-success"
+          data-bs-toggle="modal"
+          data-bs-target="#picturesModal"
+        >
+          عرض الصور
+        </button>
+        <!-- Modal -->
+        <div
+          class="modal fade"
+          id="picturesModal"
+          tabindex="-1"
+          role="dialog"
+          aria-labelledby="picturesModalLabel"
+          aria-hidden="true"
+        >
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-body">
+                <img src="" alt="image" id="modalpic" class="img-medicine" />
+              </div>
+              <div class="modal-footer">
+                <button type="button" id="modalprev" class="btn btn-primary">
+                  السابق
+                </button>
+                <button
+                  type="button"
+                  class="btn btn-secondary"
+                  data-bs-dismiss="modal"
+                >
+                  إغلاق
+                </button>
+                <button type="button" id="modalnext" class="btn btn-primary">
+                  التالي
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+    <div class="scrollable-container" id="scrollable-container"></div>
+  </footer>
+  <section class="Data-nesa">
+    <form id="nessaForm" action="">
+      {% csrf_token %}
+      <div style="display: flex; justify-content: center; margin-top: 15px">
+        <h2>{{ patientname }}</h2>
+      </div>
+      <section class="date" style="direction: rtl">
+        <div>
+          <label for="datemarry">يوم الزواج</label>
+          <input
+            type="date"
+            pattern="\d{1,2}/\d{1,2}/\d{4}"
+            id="datemarry"
+            style="width: 200px"
+          />
+        </div>
+        <div>
+          <label for="lastperiode">اخر دوره</label>
+          <input
+            type="date"
+            pattern="\d{1,2}/\d{1,2}/\d{4}"
+            id="lastperiode"
+            style="width: 200px"
+          />
+        </div>
+        <div>
+          <label for="datebirth">يوم الولاده</label>
+          <input
+            type="date"
+            pattern="\d{1,2}/\d{1,2}/\d{4}"
+            id="datebirth"
+            style="width: 200px"
+          />
+        </div>
+      </section>
+      <div style="padding: 30px">
+        <section class="first_data">
+          <div>
+            <label for="childnumber">عدد الاولاد</label>
+            <input type="number" id="childnumber" style="width: 200px" />
+          </div>
+          <div>
+            <label for="childtype">نوع الاولاد</label>
+            <input type="text" id="childtype" style="width: 200px" />
+          </div>
+          <div>
+            <label for="lastbirth">اخر ولاده</label>
+            <input
+              type="date"
+              pattern="\d{1,2}/\d{1,2}/\d{4}"
+              id="lastbirth"
+              style="width: 200px"
+            />
+          </div>
+        </section>
+        <section class="select">
+          <div>
+            <label for="typeofbirth">نوع الولاده المتوقع</label>
+            <select name="typeofbirth" id="typeofbirth">
+              <option value="nothing">غير محدد</option>
+              <option value="normal">طبيعي</option>
+              <option value="caesarean">قيصري</option>
+            </select>
+          </div>
+          <div>
+            <label for="slc">نوع الجنين</label>
+            <select name="childsex" id="childsex">
+              <option value="nothing">غير محدد</option>
+              <option value="male">ذكر</option>
+              <option value="female">انثي</option>
+              <option value="twin">تؤأم</option>
+            </select>
+          </div>
+          <div>
+            <label for="prevbirth">نوع الولاده السابقة</label>
+            <select name="prevbirth" id="prevbirth">
+              <option value="nothing">غير محدد</option>
+              <option value="normal">طبيعي</option>
+              <option value="caesarean">قيصري</option>
+            </select>
+          </div>
+        </section>
+        <article
+          style="
+            display: flex;
+            justify-content: center;
+            gap: 2%;
+            margin-top: 15px;
+            flex-wrap: wrap;
+          "
+        >
+          <div style="text-align: center" class="text_area">
+            <label for="operation" style="display: block">عمليات سابقة</label>
+            <textarea
+              style="text-align: center"
+              name="prevoperation"
+              id="prevoperation"
+              cols="30"
+              rows="10"
+              id="operation"
+            ></textarea>
+          </div>
+          <div style="text-align: center" class="text_area">
+            <label for="notes" style="display: block">ملاحظات</label>
+            <textarea
+              style="text-align: center"
+              name="notes"
+              id="notes"
+              cols="30"
+              rows="10"
+              id="notes"
+              resize="none"
+            ></textarea>
+          </div>
+        </article>
+        <div style="display: flex; justify-content: center">
+          <button type="submit" id="savenessabtn" class="btn btn-primary">
+            حفظ
+          </button>
+        </div>
+      </div>
+    </form>
+  </section>
+</div>
+{% endblock %} {% block custom_js %}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+<script>
+  let picturesNumber = 0;
+  let cardpictures = [];
+  let currentIndex = 0;
+  function getnessadata(pk) {
+    $.ajax({
+      type: "GET",
+      url: "/accounts/getnessadata/",
+      data: {
+        pk: pk,
+        csrfmiddlewaretoken: $("input[name=csrfmiddlewaretoken]").val(),
+      },
+      success: function (response) {
+        if (response.success) {
+          if (response.success == "no data") {
+            alert(response.success);
+          } else {
+            let nessacard = response.success;
+            $("#childnumber").val(nessacard.childrennumber);
+            $("#childtype").val(nessacard.childrensex);
+            $("#datemarry").val(nessacard.mariagedate);
+            $("#lastperiode").val(nessacard.lastperiode);
+            $("#datebirth").val(nessacard.datebirth);
+            $("#lastbirth").val(nessacard.lastbirth);
+            $("#typeofbirth").val(nessacard.typeofbirth);
+            $("#childsex").val(nessacard.childsex);
+            $("#prevbirth").val(nessacard.prevbirth);
+            $("#prevoperation").val(nessacard.prevoperations);
+            $("#notes").val(nessacard.notes);
+          }
+        }
+        if ("message" in response) {
+          alert("الرجاء ادخال تاريخ صالح");
+        }
+        if ("error" in response) {
+          console.error(response.error);
+        }
+      },
+      error: function (xhr, status, error) {
+        console.log("Error occurred: ", error);
+        console.log("XHR: ", xhr);
+      },
+    });
+  }
+  function clearForm() {
+    $("#childnumber").val("");
+    $("#childtype").val("");
+    $("#datemarry").val("");
+    $("#lastperiode").val("");
+    $("#datebirth").val("");
+    $("#lastbirth").val("");
+    $("#typeofbirth").val("");
+    $("#childsex").val("");
+    $("#prevbirth").val("");
+    $("#prevoperation").val("");
+    $("#notes").val("");
+    $("#nessacardImg").val("");
+  }
+  function setnessadata(pk) {
+    $.ajax({
+      type: "POST",
+      url: "/accounts/setnessadata/",
+      data: {
+        pk: pk,
+        childrennumber: $("#childnumber").val(),
+        childrensex: $("#childtype").val(),
+        mariagedate: $("#datemarry").val(),
+        lastperiode: $("#lastperiode").val(),
+        datebirth: $("#datebirth").val(),
+        lastbirth: $("#lastbirth").val(),
+        typeofbirth: $("#typeofbirth").val(),
+        childsex: $("#childsex").val(),
+        prevbirth: $("#prevbirth").val(),
+        prevoperations: $("#prevoperation").val(),
+        notes: $("#notes").val(),
+        csrfmiddlewaretoken: $("input[name=csrfmiddlewaretoken]").val(),
+      },
+      success: function (response) {
+        clearForm();
+        getnessadata(pk);
+        if (response.success) {
+          alert(response.success);
+        } else {
+          console.error(response);
+        }
+      },
+      error: function (xhr, status, error) {
+        console.log("Error occurred: ", error);
+        console.log("XHR: ", xhr);
+      },
+    });
+  }
+  function getnessapics() {
+    patientcardid = "{{primarykey}}";
+    $.ajax({
+      type: "GET",
+      url: "/accounts/getnessapics/",
+      data: {
+        patientcardid: patientcardid,
+        csrfmiddlewaretoken: $("input[name=csrfmiddlewaretoken]").val(),
+      },
+      success: function (response) {
+        if (response.success) {
+          let nessapictures = response.success;
+          $("#scrollable-container").empty();
+          picturesNumber = nessapictures.length;
+          let picture = nessapictures.forEach((picture) => {
+            $("#scrollable-container").append(
+              `<div class="card"><img class="w-100 h-100" src="${picture.picture}" alt=""></div>`
+            );
+          });
+          cardpictures = [];
+          nessapictures.forEach((picture) => {
+            cardpictures.push(picture.picture);
+          });
+        }
+        if ("message" in response) {
+          alert("الرجاء ادخال تاريخ صالح");
+        }
+        if ("error" in response) {
+          console.error(response.error);
+        }
+      },
+      error: function (xhr, status, error) {
+        console.log("Error occurred: ", error);
+        console.log("XHR: ", xhr);
+      },
+    });
+  }
+  function addnessapics(pk) {
+    var formData = new FormData();
+    if ($("#nessacardImg").length > 0) {
+      formData.append("nessaImg", $("#nessacardImg")[0].files[0]);
+    }
+    formData.append(
+      "csrfmiddlewaretoken",
+      $("input[name=csrfmiddlewaretoken]").val()
+    );
+    formData.append("patientcardid", pk);
+    $.ajax({
+      type: "POST",
+      url: "/accounts/addnessapics/",
+      data: formData,
+      contentType: false,
+      processData: false,
+      success: function (response) {
+        if (response.success) {
+          alert(response.success);
+          getnessapics();
+        } else {
+          console.error(response);
+        }
+      },
+      error: function (xhr, status, error) {
+        console.log("Error occurred: ", error);
+        console.log("XHR: ", xhr);
+      },
+    });
+  }
+  function getnextpic() {
+    currentIndex++;
+    if (currentIndex >= cardpictures.length) {
+      currentIndex = 0;
+    }
+    let currimage = $("#modalpic");
+
+    currimage.attr("src", cardpictures[currentIndex]);
+  }
+  function getprevpic() {
+    currentIndex--;
+    if (currentIndex < 0) {
+      currentIndex = cardpictures.length - 1;
+    }
+    let currimage = $("#modalpic");
+
+    currimage.attr("src", cardpictures[currentIndex]);
+  }
+  $(document).ready(function () {
+    getnessapics();
+    clearForm();
+    getnessadata("{{primarykey}}");
+    $(document).on("submit", "#nessaForm", function (e) {
+      e.preventDefault();
+      setnessadata("{{primarykey}}");
+    });
+    $(document).on("submit", "#nessapicsForm", function (e) {
+      e.preventDefault();
+      addnessapics("{{primarykey}}");
+    });
+    $("#showpic").on("click", function (e) {
+      $("#modalpic").attr("src", cardpictures[0]);
+    });
+    $("#modalnext").on("click", function (e) {
+      getnextpic();
+    });
+    $("#modalprev").on("click", function (e) {
+      getprevpic();
+    });
+    $(document).on("keydown", function (event) {
+      if (event.which === 37) {
+        // Arrow Left key is pressed
+        getprevpic();
+      } else if (event.which === 39) {
+        // Arrow Right key is pressed
+        getnextpic();
+      }
+    });
+    setInterval(getnessapics, 1000);
+  });
+</script>
+<script src="{% static 'js/bootstrap.bundle.js' %}"></script>
+{% endblock %}

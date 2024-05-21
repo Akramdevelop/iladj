@@ -1,0 +1,794 @@
+{% extends "main.html" %} {% load static %} {% block custom_title %} | اضافة
+عميل {% endblock %} {% block custom_css %}
+<link rel="stylesheet" href="{% static 'css/bootstrap.css' %}" />
+<link rel="stylesheet" href="{% static 'css/style.css' %}" />
+<link rel="stylesheet" href="{% static 'css/doctorDashboard-style.css' %}" />
+<link rel="stylesheet" href="{% static 'css/login-style.css' %}" />
+{% endblock %} {% block styling %}
+
+<style>
+  .containeer {
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+    display: flex;
+    height: 95vh;
+    background: blueviolet;
+    flex-wrap: wrap;
+    margin-top: 10px;
+  }
+
+  .form_main {
+    height: 97%;
+    width: 30%;
+    border-radius: 8px;
+    margin-top: 5px;
+  }
+
+  .form_main::before {
+    position: absolute;
+    content: "";
+    width: 450px;
+    height: 500px;
+    background-color: rgb(209, 193, 255);
+    transform: rotate(45deg);
+    left: -180px;
+    bottom: 30px;
+    z-index: 1;
+    border-radius: 30px;
+    box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.082);
+  }
+
+  .right-side {
+    margin-top: 5px;
+  }
+
+  .file-upload {
+    z-index: 10000;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+  }
+
+  @media (max-width: 1023px) {
+    .form_main {
+      width: 100%;
+    }
+
+    .form_main::before {
+      position: absolute;
+      content: "";
+      width: 296px;
+      height: 668px;
+      background-color: rgb(209, 193, 255);
+      transform: rotate(31deg);
+      left: -180px;
+      bottom: 30px;
+      z-index: 1;
+      border-radius: 30px;
+      box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.082);
+    }
+  }
+  /* added by back-end developer */
+  #updatebtn {
+    z-index: 2;
+    position: relative;
+    width: 100%;
+    border: none;
+    background-color: rgb(162, 104, 255);
+    height: 30px;
+    color: white;
+    font-size: 0.8em;
+    font-weight: 500;
+    letter-spacing: 1px;
+    margin: 10px;
+    cursor: pointer;
+  }
+  .modal-title {
+    width: 60px;
+  }
+  .modal-header {
+    align-items: center;
+  }
+  .modal-body {
+    overflow: auto;
+  }
+  .modal-body img {
+    max-width: 60vh;
+    height: auto;
+  }
+</style>
+
+{% endblock %} {% block content %}
+<div class="containeer">
+  <form class="form_main" id="addCard">
+    {% csrf_token %}
+    <p class="heading">اضافة عميل</p>
+    <div class="inputContainer">
+      <input
+        name="name"
+        type="text"
+        class="inputField"
+        id="name"
+        placeholder="الاسم"
+      />
+    </div>
+    <p class="errormsg" id="nameerrormsg" style="display: none">
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="12"
+        height="12"
+        fill="currentColor"
+        class="bi bi-exclamation-octagon-fill"
+        viewBox="0 0 16 16"
+      >
+        <path
+          d="M11.46.146A.5.5 0 0 0 11.107 0H4.893a.5.5 0 0 0-.353.146L.146 4.54A.5.5 0 0 0 0 4.893v6.214a.5.5 0 0 0 .146.353l4.394 4.394a.5.5 0 0 0 .353.146h6.214a.5.5 0 0 0 .353-.146l4.394-4.394a.5.5 0 0 0 .146-.353V4.893a.5.5 0 0 0-.146-.353L11.46.146zM8 4c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 4.995A.905.905 0 0 1 8 4zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"
+        />
+      </svg>
+      <span id="nameerrortxt"></span>
+    </p>
+    <div class="inputContainer">
+      <input
+        name="age"
+        type="number"
+        min="1"
+        class="inputField"
+        id="age"
+        placeholder="السن"
+      />
+    </div>
+    <p class="errormsg" id="ageerrormsg" style="display: none">
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="12"
+        height="12"
+        fill="currentColor"
+        class="bi bi-exclamation-octagon-fill"
+        viewBox="0 0 16 16"
+      >
+        <path
+          d="M11.46.146A.5.5 0 0 0 11.107 0H4.893a.5.5 0 0 0-.353.146L.146 4.54A.5.5 0 0 0 0 4.893v6.214a.5.5 0 0 0 .146.353l4.394 4.394a.5.5 0 0 0 .353.146h6.214a.5.5 0 0 0 .353-.146l4.394-4.394a.5.5 0 0 0 .146-.353V4.893a.5.5 0 0 0-.146-.353L11.46.146zM8 4c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 4.995A.905.905 0 0 1 8 4zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"
+        />
+      </svg>
+      <span id="ageerrortxt"></span>
+    </p>
+    <div class="inputContainer">
+      <input
+        name="address"
+        type="text"
+        class="inputField"
+        id="address"
+        placeholder="العنوان"
+      />
+    </div>
+    <p class="errormsg" id="addresserrormsg" style="display: none">
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="12"
+        height="12"
+        fill="currentColor"
+        class="bi bi-exclamation-octagon-fill"
+        viewBox="0 0 16 16"
+      >
+        <path
+          d="M11.46.146A.5.5 0 0 0 11.107 0H4.893a.5.5 0 0 0-.353.146L.146 4.54A.5.5 0 0 0 0 4.893v6.214a.5.5 0 0 0 .146.353l4.394 4.394a.5.5 0 0 0 .353.146h6.214a.5.5 0 0 0 .353-.146l4.394-4.394a.5.5 0 0 0 .146-.353V4.893a.5.5 0 0 0-.146-.353L11.46.146zM8 4c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 4.995A.905.905 0 0 1 8 4zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"
+        />
+      </svg>
+      <span id="addresserrortxt"></span>
+    </p>
+    <div class="inputContainer">
+      <input
+        name="phone"
+        type="text"
+        class="inputField"
+        id="phone"
+        placeholder="رقم الهاتف"
+      />
+    </div>
+    <p class="errormsg" id="phoneerrormsg" style="display: none">
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="12"
+        height="12"
+        fill="currentColor"
+        class="bi bi-exclamation-octagon-fill"
+        viewBox="0 0 16 16"
+      >
+        <path
+          d="M11.46.146A.5.5 0 0 0 11.107 0H4.893a.5.5 0 0 0-.353.146L.146 4.54A.5.5 0 0 0 0 4.893v6.214a.5.5 0 0 0 .146.353l4.394 4.394a.5.5 0 0 0 .353.146h6.214a.5.5 0 0 0 .353-.146l4.394-4.394a.5.5 0 0 0 .146-.353V4.893a.5.5 0 0 0-.146-.353L11.46.146zM8 4c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 4.995A.905.905 0 0 1 8 4zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"
+        />
+      </svg>
+      <span id="phoneerrortxt"></span>
+    </p>
+    <button id="button" name="btnaddcard">اضافة</button>
+    <div class="file-upload" style="width: 100%; text-align: center">
+      <button
+        type="button"
+        class="btn btn-success"
+        data-bs-toggle="modal"
+        data-bs-target="#prescriptionModal"
+      >
+        الروشته
+      </button>
+      <!-- Modal -->
+      <div
+        class="modal fade"
+        id="prescriptionModal"
+        tabindex="-1"
+        role="dialog"
+        aria-labelledby="prescriptionModalLabel"
+        aria-hidden="true"
+      >
+        <div class="modal-dialog" style="margin: 0" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <img
+                class="modal-title ml-2"
+                id="prescriptionModalLabel"
+                src="{% static 'images/picture.png' %}"
+                alt="logo"
+              />
+              <input id="prescriptionImg" type="file" accept="image/*" />
+              <button
+                type="button"
+                class="close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              >
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <img
+                id="prescriptionPreview"
+                src="{% static 'images/no-image.png' %}"
+                alt="image"
+                class="img-medicine"
+              />
+            </div>
+            <div class="modal-footer">
+              <button
+                type="button"
+                class="btn btn-secondary"
+                data-bs-dismiss="modal"
+              >
+                Close
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- --------------------------------------------------- -->
+      <button
+        type="button"
+        class="btn btn-success"
+        data-bs-toggle="modal"
+        data-bs-target="#X-raysModal"
+      >
+        الاشعة
+      </button>
+      <!-- Modal -->
+      <div
+        class="modal fade"
+        id="X-raysModal"
+        tabindex="-1"
+        role="dialog"
+        aria-labelledby="X-raysModalLabel"
+        aria-hidden="true"
+      >
+        <div class="modal-dialog" style="margin: 0" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <img
+                class="modal-title ml-2"
+                id="X-raysModalLabel"
+                src="{% static 'images/picture.png' %}"
+                alt="logo"
+              />
+              <input id="X-raysImg" type="file" accept="image/*" />
+              <button
+                type="button"
+                class="close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              >
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <img
+                id="X-raysPreview"
+                src="{% static 'images/no-image.png' %}"
+                alt="image"
+                class="img-medicine"
+              />
+            </div>
+            <div class="modal-footer">
+              <button
+                type="button"
+                class="btn btn-secondary"
+                data-bs-dismiss="modal"
+              >
+                Close
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- -------------------------- -->
+      <button
+        type="button"
+        class="btn btn-success"
+        data-bs-toggle="modal"
+        data-bs-target="#AnalysisModal"
+      >
+        التحاليل
+      </button>
+
+      <!-- Modal -->
+      <div
+        class="modal fade"
+        id="AnalysisModal"
+        tabindex="-1"
+        role="dialog"
+        aria-labelledby="AnalysisModalLabel"
+        aria-hidden="true"
+      >
+        <div class="modal-dialog" style="margin: 0" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <img
+                class="modal-title ml-2"
+                id="AnalysisModalLabel"
+                src="{% static 'images/picture.png' %}"
+                alt="logo"
+              />
+              <input id="analysisImg" type="file" accept="image/*" />
+              <button
+                type="button"
+                class="close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              >
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <img
+                id="analysisPreview"
+                src="{% static 'images/no-image.png' %}"
+                alt="image"
+                class="img-medicine"
+              />
+            </div>
+            <div class="modal-footer">
+              <button
+                type="button"
+                class="btn btn-secondary"
+                data-bs-dismiss="modal"
+              >
+                Close
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <button type="button" id="updatebtn" name="btnupdatepics">حفظ</button>
+  </form>
+  <!-- <div class="right-side">
+    <div class="search-box" style="display: flex; justify-content: center">
+      <input
+        type="text"
+        id="search"
+        placeholder="...ابحث باسم المريض"
+        style="direction: rtl; padding-right: 10px"
+      />
+      <button type="submit" id="sub">ابحث</button>
+    </div>
+    <div class="customer">
+      <div class="names" id="names">
+        <button class="_name" value="submit"></button>
+      </div>
+    </div>
+  </div> -->
+  <div class="right-side">
+    <div class="search-box" style="display: flex; justify-content: center">
+      <input
+        type="text"
+        hidden
+        style="display: none"
+        id="assistantid"
+        data-assistant-id="{{assistant_id}}"
+      />
+      <div>
+        <form id="formsearchpatient">
+          <input
+            name="namequery"
+            type="text"
+            id="searchpatient"
+            placeholder="...ابحث باسم المريض"
+            style="direction: rtl; padding-right: 10px"
+          />
+        </form>
+      </div>
+      <button type="submit" id="sub">ابحث</button>
+    </div>
+
+    <div class="customer">
+      <form id="namesform" class="second-form">
+        <div class="names flex-column justify-content-start" id="names">
+          <!-- <a href="" class="btn btn-danger">حذف</a>
+          <div class="names flex-column justify-content-start"></div> 
+          <button id="names" class="_name" value="submit" style="width: 80%">
+            hossam
+          </button>
+          -->
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %} {% block custom_js %}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+<script>
+  let formAddCard = $("addCard"),
+    nameInput = $("#name"),
+    nameMsg = $("#nameerrormsg"),
+    nameTxt = $("#nameerrortxt"),
+    ageInput = $("#age"),
+    ageMsg = $("#ageerrormsg"),
+    ageTxt = $("#ageerrortxt"),
+    addressInput = $("#address"),
+    addressMsg = $("#addresserrormsg"),
+    addressTxt = $("#addresserrortxt"),
+    phoneInput = $("#phone"),
+    phoneMsg = $("#phoneerrormsg"),
+    phoneTxt = $("#phoneerrortxt"),
+    isNameValid = false,
+    isAgeValid = false,
+    isAddressValid = false,
+    isNPhoneValid = false,
+    selectedpatientcardid = null;
+
+  // Function to clear the input field
+  function clearForm() {
+    $("#name").val("");
+    $("#age").val("");
+    $("#address").val("");
+    $("#phone").val("");
+    $("#prescriptionImg").val("");
+    $("#X-raysImg").val("");
+    $("#analysisImg").val("");
+    $("#prescriptionPreview").attr("src", "{% static 'images/no-image.png' %}");
+    $("#X-raysPreview").attr("src", "{% static 'images/no-image.png' %}");
+    $("#analysisPreview").attr("src", "{% static 'images/no-image.png' %}");
+  }
+  function updateIsFinished(patientCardId) {
+    $.ajax({
+      url: `/accounts/update_is_finished/${patientCardId}/`,
+      type: "POST",
+      data: {
+        csrfmiddlewaretoken: $("input[name=csrfmiddlewaretoken]").val(),
+      },
+      success: function (response) {
+        if (response.success) {
+          alert("تم حذف الحالة من القائمة بنجاح");
+          clearForm();
+        } else if (response.error) {
+          alert(response.error);
+        } else {
+          alert("فشل حذف الحالة، إعد المحاولة أو تواصل مع مسؤولي المنصة");
+        }
+      },
+      error: function (xhr, status, error) {
+        console.log("Error occurred: ", error);
+        console.log("XHR: ", xhr.status);
+      },
+    });
+  }
+  function updatepics(id) {
+    var formData = new FormData();
+    let prescriptionOrigin;
+    let xRaysOrigin;
+    let analysisOrigin;
+    if ($("#prescriptionImg").length > 0) {
+      formData.append("prescriptionImg", $("#prescriptionImg")[0].files[0]);
+    }
+    if ($("#X-raysImg").length > 0) {
+      formData.append("XRaysImg", $("#X-raysImg")[0].files[0]);
+      xRaysOrigin = $("#X-raysImg")[0].files[0];
+    }
+    if ($("#analysisImg").length > 0) {
+      formData.append("analysisImg", $("#analysisImg")[0].files[0]);
+    }
+    formData.append("patientcardid", id);
+    formData.append(
+      "csrfmiddlewaretoken",
+      $("input[name=csrfmiddlewaretoken]").val()
+    );
+    formData.append("name", $("#name").val());
+    formData.append("age", $("#age").val());
+    formData.append("address", $("#address").val());
+    $.ajax({
+      type: "POST",
+      url: "/accounts/updatepics/",
+      data: formData,
+      contentType: false,
+      processData: false,
+      success: function (response) {
+        if (response.success) {
+          alert(response.success);
+        } else {
+          console.error(response);
+        }
+      },
+      error: function (xhr, status, error) {
+        console.log("Error occurred: ", error);
+        console.log("XHR: ", xhr);
+      },
+    });
+  }
+  $(document).ready(function () {
+    function performsearch() {
+      var currentDate = new Date();
+      var year = currentDate.getFullYear();
+      var month = (currentDate.getMonth() + 1).toString().padStart(2, "0"); // Month is 0-indexed, so add 1
+      var day = currentDate.getDate().toString().padStart(2, "0");
+      var mydate = year + "-" + month + "-" + day;
+      // let customDate = $("#getdateinput").val();
+      // let isDateEnable = $("#getdateinput").attr("data-enabled");
+      // if (isDateEnable != "false") {
+      //   mydate = customDate;
+      // }
+      var selectedAssistantId = $("#assistantid").data("assistant-id");
+
+      $.ajax({
+        type: "GET",
+        url: "../../../accounts/searchpatient/",
+        data: {
+          q: $("#searchpatient").val(),
+          date: mydate,
+          assistantId: selectedAssistantId,
+          csrfmiddlewaretoken: $("input[name=csrfmiddlewaretoken]").val(),
+        },
+        success: function (response) {
+          if (response.success) {
+            names = response.success;
+            namesContainer = $("#names");
+            namesContainer[0].innerHTML = "";
+            if (names != "Void") {
+              names.forEach((name) => {
+                let nameBtn, nameCheck;
+                if (name.checked) {
+                  nameCheck = "normal";
+                } else {
+                  nameCheck = "bold";
+                }
+                namesContainer.append(
+                  `<div class="_name align-self-center d-flex justify-content-between align-items-center flex-row-reverse"><a href="#" class="btn btn-danger" style="height: 30px;margin-top: 5px;display: flex;align-items: center;" onclick="updateIsFinished(${name.id})">حذف</a><button class="text-right btn font-weight-${nameCheck} white-space-normal" type="submit" data-pk="${name.id}">${name.name}</button></div>`
+                );
+              });
+            }
+          } else if ("err9" in response) {
+            alert("الرجاء ادخال تاريخ صالح");
+          } else {
+            console.error(response);
+          }
+        },
+        error: function (xhr, status, error) {
+          console.log("Error occurred: ", error);
+          console.log("XHR: ", xhr);
+        },
+      });
+    }
+    performsearch();
+    clearForm();
+    $(document).on("submit", "#addCard", function (e) {
+      e.preventDefault();
+      if (nameInput.val() == "") {
+        nameTxt[0].innerText = "لا يمكن ترك هذا الحقل فارغ";
+        nameMsg[0].style = "display: block";
+      } else {
+        nameMsg[0].style = "display: none";
+        isNameValid = true;
+      }
+      if (ageInput.val() == "") {
+        ageTxt[0].innerText = "لا يمكن ترك هذا الحقل فارغ";
+        ageMsg[0].style = "display: block";
+      } else {
+        ageMsg[0].style = "display: none";
+        isAgeValid = true;
+      }
+      if (addressInput.val() == "") {
+        addressTxt[0].innerText = "لا يمكن ترك هذا الحقل فارغ";
+        addressMsg[0].style = "display: block";
+      } else {
+        addressMsg[0].style = "display: none";
+        isAddressValid = true;
+      }
+      if (phoneInput.val() == "") {
+        phoneTxt[0].innerText = "لا يمكن ترك هذا الحقل فارغ";
+        phoneMsg[0].style = "display: block";
+      } else {
+        phoneMsg[0].style = "display: none";
+        isPhoneValid = true;
+      }
+      if (isNameValid && isAgeValid && isAddressValid && isPhoneValid) {
+        var formData = new FormData();
+        let data = {
+          name: nameInput.val(),
+          age: ageInput.val(),
+          address: addressInput.val(),
+          phone: phoneInput.val(),
+          // add images
+          prescriptionImg: $("#prescriptionImg")[0].files[0],
+          XRaysImg: $("#X-raysImg")[0].files[0],
+          analysisImg: $("#analysisImg")[0].files[0],
+          btnaddcard: 1,
+          csrfmiddlewaretoken: $("input[name=csrfmiddlewaretoken]").val(),
+        };
+        for (var key in data) {
+          if (data.hasOwnProperty(key)) {
+            formData.append(key, data[key]);
+          }
+        }
+        $.ajax({
+          type: "POST",
+          url: "../../accounts/addpatientcard/",
+          data: formData,
+          contentType: false,
+          processData: false,
+          success: function (response) {
+            performsearch();
+            if ("err7" in response) {
+              phoneTxt[0].innerText = "رقم الهاتف غير مرتبط بأي حساب";
+              phoneMsg[0].style = "display: block";
+              console.log(response.err7);
+            } else if ("error" in response) {
+              console.error(response.error);
+            } else if (response.success) {
+              let messageAlerted = response.success;
+              if (response.isNewUser == true) {
+                messageAlerted = `تم الإضافة بنجاح
+              المستخدم الجديد: ${response.datas.username}
+              كلمة السر: ${response.datas.password}`;
+              }
+              alert(messageAlerted);
+              clearForm();
+            } else {
+              console.log(response);
+            }
+          },
+          error: function (xhr, status, error) {
+            console.log(xhr);
+          },
+        });
+      }
+    });
+    $("#prescriptionImg").change(function () {
+      var input = this;
+      var previewImage = $("#prescriptionPreview");
+
+      if (input.files && input.files[0]) {
+        var reader = new FileReader();
+
+        reader.onload = function (e) {
+          // Update the 'src' attribute of the <img> tag to display the selected image
+          previewImage.attr("src", e.target.result);
+        };
+
+        reader.readAsDataURL(input.files[0]);
+      } else {
+        // Clear the <img> tag if no file is selected
+        previewImage.attr("src", "{% static 'images/no-image.png' %}");
+      }
+    });
+    $("#X-raysImg").change(function () {
+      var input = this;
+      var previewImage = $("#X-raysPreview");
+
+      if (input.files && input.files[0]) {
+        var reader = new FileReader();
+
+        reader.onload = function (e) {
+          // Update the 'src' attribute of the <img> tag to display the selected image
+          previewImage.attr("src", e.target.result);
+        };
+
+        reader.readAsDataURL(input.files[0]);
+      } else {
+        // Clear the <img> tag if no file is selected
+        previewImage.attr("src", "{% static 'images/no-image.png' %}");
+      }
+    });
+    $("#analysisImg").change(function () {
+      var input = this;
+      var previewImage = $("#analysisPreview");
+
+      if (input.files && input.files[0]) {
+        var reader = new FileReader();
+
+        reader.onload = function (e) {
+          // Update the 'src' attribute of the <img> tag to display the selected image
+          previewImage.attr("src", e.target.result);
+        };
+
+        reader.readAsDataURL(input.files[0]);
+      } else {
+        // Clear the <img> tag if no file is selected
+        previewImage.attr("src", "{% static 'images/no-image.png' %}");
+      }
+    });
+
+    function getpatientdata(patientCardPk) {
+      $.ajax({
+        type: "GET",
+        url: "../../../accounts/getpatientdataforassistant/",
+        data: {
+          pk: patientCardPk,
+          csrfmiddlewaretoken: $("input[name=csrfmiddlewaretoken]").val(),
+        },
+        success: function (response) {
+          clearForm();
+          $("#testing").empty();
+          if (response.success) {
+            patientCard = response.success;
+            nameInput.val(patientCard.name);
+            ageInput.val(patientCard.age);
+            addressInput.val(patientCard.address);
+            phoneInput.val(patientCard.phoneNumber);
+            selectedpatientcardid = patientCard.id;
+            if (response.docCard) {
+              // get pictures
+              doctorcard = response.docCard;
+              console.log(doctorcard);
+              if (doctorcard.prescription != null) {
+                $("#prescriptionPreview").attr("src", doctorcard.prescription);
+              }
+              if (doctorcard.xRays != null) {
+                $("#X-raysPreview").attr("src", doctorcard.xRays);
+              }
+              if (doctorcard.analysis != null) {
+                $("#analysisPreview").attr("src", doctorcard.analysis);
+              }
+            }
+          } else {
+            console.error(response);
+          }
+        },
+        error: function (xhr, status, error) {
+          console.log("Error occurred: ", error);
+          console.log("XHR: ", xhr);
+        },
+      });
+    }
+    $("#formsearchpatient").on("keyup", function (e) {
+      performsearch();
+    });
+    $(document).on("submit", "#namesform", function (e) {
+      e.preventDefault();
+      let submittedbtn = $(this)
+        .find('input[type="submit"], button[type="submit"]')
+        .filter(":focus");
+      let patientCardPk = submittedbtn.data("pk");
+      getpatientdata(patientCardPk);
+    });
+
+    $("#updatebtn").on("click", function (e) {
+      e.preventDefault();
+      if (selectedpatientcardid != undefined) {
+        updatepics(selectedpatientcardid);
+      } else {
+        alert("يرجى اختيار عميل أولا");
+      }
+    });
+
+    setInterval(performsearch, 1000);
+  });
+</script>
+<script src="{% static 'js/bootstrap.bundle.js' %}"></script>
+{% endblock %}

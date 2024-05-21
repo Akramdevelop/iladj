@@ -1,0 +1,39 @@
+{% extends "main.html" %} {% load static %} {% block custom_title %} | الخدمات
+{% endblock %} {% block custom_css %}
+<link rel="stylesheet" href="{% static 'css/bootstrap.css' %}" />
+<link rel="stylesheet" href="{% static 'css/service-style.css' %}" />
+{% endblock %} {% block content %}
+<div class="containeer">
+  {% include 'parts/_navbar.html' %}
+  <section class="main">
+    <div class="left-side">
+      <a href="{% url 'index' %}">
+        <img
+          style="width: 200px"
+          src="{% static 'images/علاج.jpg' %}"
+          alt="Your browser does not suppor this image"
+          width="150px"
+      /></a>
+    </div>
+    <div class="welcome">
+      <p>منصة علاج ترحب بكم و تقدم لكم خدماتها المميزة لراحتكم</p>
+    </div>
+  </section>
+
+  <section class="doctor">
+    <img
+      class="doctor-img"
+      src="{% static 'images/our professional doctor (1).png' %}"
+      alt="Your browser does not suppor this image"
+    />
+    <div class="doctor-access">
+      <a
+        href="{% url 'doctors' %}"
+        class="btn btn-primary"
+        style="margin-top: 10px"
+        >اضغط هنا</a
+      >
+    </div>
+  </section>
+</div>
+{% endblock %} {% block custom_js %}{% endblock %}

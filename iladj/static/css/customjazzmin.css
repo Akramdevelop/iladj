@@ -1,0 +1,47 @@
+input-group:not(.has-validation)
+  > .custom-file:not(:last-child)
+  .custom-file-label::after,
+.input-group:not(.has-validation) > .custom-select:not(:last-child),
+.input-group:not(.has-validation) > .form-control:not(:last-child) {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+  border-top-right-radius: 0.25rem;
+  border-bottom-right-radius: 0.25rem;
+}
+.input-group > .input-group-append > .btn,
+.input-group > .input-group-append > .input-group-text,
+.input-group > .input-group-prepend:first-child > .btn:not(:first-child),
+.input-group
+  > .input-group-prepend:first-child
+  > .input-group-text:not(:first-child),
+.input-group > .input-group-prepend:not(:first-child) > .btn,
+.input-group > .input-group-prepend:not(:first-child) > .input-group-text {
+  border-top-left-radius: 0.25rem;
+  border-bottom-left-radius: 0.25rem;
+  border-top-right-radius: unset;
+  border-bottom-right-radius: unset;
+}
+.brand-link .brand-image {
+  border-radius: 0.5rem;
+}
+/*
+.main-sidebar {
+  left: 0;
+}
+
+.main-sidebar .sidebar {
+  direction: ltr;
+}
+
+.main-header {
+  direction: ltr;
+}
+ .content-wrapper .content .container-fluid .row div {
+  direction: ltr;
+} 
+ */
+
+html,
+body {
+  direction: ltr;
+}

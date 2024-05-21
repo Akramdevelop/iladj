@@ -1,0 +1,43 @@
+{% extends "main.html" %} {% load static %} {% block custom_title %} | الرئيسية
+{% endblock %} {% block custom_css %}
+<link rel="stylesheet" href="{% static 'css/bootstrap.css' %}" />
+<link rel="stylesheet" href="{% static 'css/style.css' %}" />
+{% endblock %} {% block content %}
+<div class="containeer">
+  {% include 'parts/_navbar.html' %}
+  <section class="main">
+    <img
+      class="img-fluid"
+      id="main_img"
+      src="{% static 'images/WhatsApp Image 2023-08-22 at 12.18.06.jpg' %}"
+      alt="Your browser does not support this image"
+    />
+  </section>
+  <section class="baby">
+    <img
+      class="img-fluid"
+      src="{% static 'images/baby.PNG' %}"
+      alt="Your browser does not support this image"
+    />
+  </section>
+  <section class="face-care">
+    <img
+      src="{% static 'images/FaceCare.PNG' %}"
+      alt="Your browser does not support this image"
+      class="img-fluid"
+    />
+  </section>
+  <section class="advice">
+    <div>
+      <img
+        style="margin-top: 15px"
+        class="img-fluid"
+        src="{% static 'images/our professional doctor (1).png' %}"
+        alt=""
+      />
+    </div>
+  </section>
+</div>
+{% endblock %} {% block custom_js %}
+<script src="{% static 'js/index.js' %}"></script>
+{% endblock %}

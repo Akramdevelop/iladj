@@ -1,0 +1,783 @@
+{% extends "main.html" %} {% load static %} {% block custom_title %} | صفحة طبيب
+النساء {% endblock %} {% block custom_css %}
+<link rel="stylesheet" href="{% static 'css/bootstrap.css' %}" />
+<link rel="stylesheet" href="{% static 'css/style.css' %}" />
+<link rel="stylesheet" href="{% static 'css/doctorDashboard-style.css' %}" />
+{% endblock %} {% block styling %}
+<style>
+  header {
+    z-index: 1000;
+  }
+
+  .Data-nesa {
+    width: 100%;
+    height: 74vh;
+    display: flex;
+    justify-content: center;
+    margin-top: 15px;
+  }
+
+  .Data-nesa form {
+    width: max-content;
+    height: max-content;
+    background-color: white;
+  }
+
+  label {
+    color: blue;
+  }
+
+  .data div {
+    margin-top: 15px;
+  }
+
+  input {
+    text-align: center;
+    text-align: center;
+  }
+
+  div {
+    height: min-content;
+  }
+  .scrollable-container {
+    overflow-x: auto;
+    white-space: nowrap;
+  }
+
+  .card {
+    display: inline-block;
+    width: 200px;
+    height: 300px;
+    background-color: #f1f1f1;
+    margin-right: 10px;
+    padding: 10px;
+  }
+
+  .scroll_form {
+    display: flex;
+    justify-content: center;
+    margin: 15px;
+  }
+
+  .first_data {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    direction: rtl;
+  }
+
+  .first_data div {
+    margin-right: 10px;
+  }
+
+  input {
+    border: 2px solid blue;
+  }
+
+  textarea {
+    border: 2px solid blue;
+    resize: none;
+  }
+  .others section,
+  .cbcsection {
+    display: flex;
+    justify-content: space-evenly;
+  }
+  .others section > div,
+  .lipidsection > div,
+  .cbcsection > div {
+    width: 30%;
+    margin: 0;
+    margin-top: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .cbcsection > div {
+    width: 20%;
+    margin: 0 5px;
+  }
+  .lipidsection > div {
+    width: 30%;
+    margin: 0 5px;
+  }
+  .lastdiv {
+    width: 40%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .others section > div label,
+  .lipidsection > div label,
+  .cbcsection > div label {
+    margin: 0;
+  }
+  @media screen and (max-width: 900px) {
+    .others section > div {
+      width: 40%;
+    }
+    .lastdiv {
+      width: 50%;
+    }
+    .cbcsection > div {
+      width: 30%;
+    }
+    .lipidsection > div {
+      width: 40%;
+    }
+  }
+  @media screen and (max-width: 700px) {
+    .others section > div {
+      width: 48%;
+    }
+    .lastdiv {
+      width: 58%;
+    }
+    .cbcsection > div {
+      width: 38%;
+    }
+    .lipidsection > div {
+      width: 45%;
+    }
+  }
+  @media screen and (max-width: 600px) {
+    .others section,
+    .lipidsection,
+    .cbcsection {
+      flex-direction: column;
+      align-items: center;
+    }
+    .others section > div,
+    .lipidsection > div,
+    .cbcsection > div {
+      width: 80%;
+    }
+    .lastdiv {
+      width: 80%;
+    }
+  }
+
+  /* added by back-end */
+  .modal-title {
+    width: 60px;
+  }
+  .modal-header {
+    align-items: center;
+  }
+  .modal-dialog {
+    margin: 2.5vh 0 0 1vw;
+  }
+</style>
+{% endblock %} {% block content %}
+<!-- Modal -->
+<div
+  class="modal fade"
+  id="picturesModal"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="picturesModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-body">
+        <img src="" alt="image" id="modalpic" class="img-medicine" />
+      </div>
+      <div class="modal-footer">
+        <button type="button" id="modalprev" class="btn btn-primary">
+          السابق
+        </button>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+          إغلاق
+        </button>
+        <button type="button" id="modalnext" class="btn btn-primary">
+          التالي
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="containeer">
+  {% include 'parts/_navbar.html' %}
+  <footer>
+    <form
+      id="vascularpicsForm"
+      class="scroll_form"
+      style="display: flex; flex-wrap: wrap"
+    >
+      <div>
+        <input
+          id="vascularcardImg"
+          type="file"
+          style="border: none"
+          accept="image/*"
+        />
+      </div>
+      <div>
+        <button class="btn btn-primary">اضافة صور</button>
+        <button
+          id="showpic"
+          type="button"
+          class="btn btn-success"
+          data-bs-toggle="modal"
+          data-bs-target="#picturesModal"
+        >
+          عرض الصور
+        </button>
+      </div>
+    </form>
+    <div class="scrollable-container" id="scrollable-container"></div>
+  </footer>
+  <section class="Data-nesa">
+    <form id="vascularForm" action="">
+      {% csrf_token %}
+      <section class="analysis" style="padding: 15px">
+        <div
+          class="CBC"
+          id="CBC"
+          style="font-weight: bold; border: 2px black solid"
+        >
+          <div
+            style="
+              display: flex;
+              justify-content: center;
+              border: 2px solid black;
+              width: 97%;
+              margin-left: 9px;
+              margin-top: 10px;
+            "
+          >
+            <label for="CBC" style="text-align: center">CBC</label>
+          </div>
+          <br />
+          <article>
+            <section
+              class="cbcsection"
+              style="
+                display: flex;
+                justify-content: space-between;
+                padding: 15px;
+                flex-wrap: wrap;
+              "
+            >
+              <div>
+                <label for="Hb">HB</label>
+                <input type="text" id="HB" style="width: 120px; margin: 5px" />
+              </div>
+              <div>
+                <label for="Hb">PLT</label>
+                <input type="text" id="PLT" style="width: 120px; margin: 5px" />
+              </div>
+              <div>
+                <label for="Hb">WBC</label>
+                <input type="text" id="WBC" style="width: 120px; margin: 5px" />
+              </div>
+              <div>
+                <label for="RBC">RBC</label>
+                <input type="text" id="RBC" style="width: 120px; margin: 5px" />
+              </div>
+              <div>
+                <label for="HTC">HTC</label>
+                <input type="text" id="HTC" style="width: 120px; margin: 5px" />
+              </div>
+            </section>
+            <section class="analysis" style="padding: 15px">
+              <div
+                class="lipid_profile"
+                id="lipid_profile"
+                style="font-weight: bold"
+              >
+                <div
+                  style="
+                    display: flex;
+                    justify-content: center;
+                    border: 2px black solid;
+                  "
+                >
+                  <label for="lipid_profile" style="text-align: center"
+                    >LiPid Profile</label
+                  >
+                </div>
+                <br />
+                <section
+                  class="lipidsection"
+                  style="
+                    display: flex;
+                    justify-content: space-between;
+                    flex-wrap: wrap;
+                  "
+                >
+                  <div>
+                    <label for="ch">Cholesterol</label>
+                    <input
+                      type="text"
+                      id="Cholesterol"
+                      style="width: 120px; margin: 5px"
+                    />
+                  </div>
+                  <div>
+                    <label for="TGC">TGC</label>
+                    <input
+                      type="text"
+                      id="TGC"
+                      style="width: 120px; margin: 5px"
+                    />
+                  </div>
+                  <div>
+                    <label for="LDL">LDL</label>
+                    <input
+                      type="text"
+                      id="LDL"
+                      style="width: 120px; margin: 5px"
+                    />
+                  </div>
+                  <div>
+                    <label for="HDL">HDL</label>
+                    <input
+                      type="text"
+                      id="HDL"
+                      style="width: 120px; margin: 5px"
+                    />
+                  </div>
+                  <div>
+                    <label for="VLDL">VLDL</label>
+                    <input
+                      type="text"
+                      id="VLDL"
+                      style="width: 120px; margin: 5px"
+                    />
+                  </div>
+                </section>
+                <div id="other" style="display: flex">
+                  <div
+                    style="
+                      border: 2px black solid;
+                      width: 100%;
+                      display: flex;
+                      justify-content: center;
+                      margin-top: 10px;
+                    "
+                  >
+                    <label for="other">Other</label>
+                  </div>
+                </div>
+                <div class="others">
+                  <section>
+                    <div>
+                      <label for="urea">Urea</label>
+                      <input type="text" id="Urea" style="width: 120px" />
+                    </div>
+                    <div>
+                      <label for="creat">CREATE</label>
+                      <input type="text" id="CREATE" style="width: 120px" />
+                    </div>
+                  </section>
+                  <section>
+                    <div>
+                      <label for="SGOT">SGOT</label>
+                      <input type="text" id="SGOT" style="width: 120px" />
+                    </div>
+                    <div>
+                      <label for="SGPT">SGPT</label>
+                      <input type="text" id="SGPT" style="width: 120px" />
+                    </div>
+                  </section>
+                  <section>
+                    <div>
+                      <label for="PT">PT</label>
+                      <input type="text" id="PT" style="width: 120px" />
+                    </div>
+                    <div>
+                      <label for="INR">INR</label>
+                      <input type="text" id="INR" style="width: 120px" />
+                    </div>
+                  </section>
+                  <section>
+                    <div>
+                      <label for="HbA1c">HbA1c</label>
+                      <input type="text" id="HbA1c" style="width: 120px" />
+                    </div>
+                    <div>
+                      <label for="D-dimer">D-dimer</label>
+                      <input type="text" id="Ddimer" style="width: 120px" />
+                    </div>
+                  </section>
+                  <section>
+                    <div>
+                      <label for="FBS">FBS</label>
+                      <input type="text" id="FBS" style="width: 120px" />
+                    </div>
+                    <div>
+                      <label for="PPBS">PPBS</label>
+                      <input type="text" id="PPBS" style="width: 120px" />
+                    </div>
+                  </section>
+                  <section>
+                    <div>
+                      <label for="caTotal">ca-Total</label>
+                      <input type="text" id="caTotal" style="width: 120px" />
+                    </div>
+                    <div>
+                      <label for="caIoized">ca-Ioized</label>
+                      <input type="text" id="caIoized" style="width: 120px" />
+                    </div>
+                  </section>
+                  <section>
+                    <div>
+                      <label for="ESR">ESR</label>
+                      <input type="text" id="ESR" style="width: 120px" />
+                    </div>
+                    <div>
+                      <label for="CRP">CRP</label>
+                      <input type="text" id="CRP" style="width: 120px" />
+                    </div>
+                  </section>
+                  <section>
+                    <div s tyle="margin-left: 5px;">
+                      <label for="PTNC">PTNC</label>
+                      <input type="text" id="PTNC" style="width: 120px" />
+                    </div>
+                    <div>
+                      <label for="PTNS">PTNS</label>
+                      <input type="text" id="PTNS" style="width: 120px" />
+                    </div>
+                  </section>
+                  <section>
+                    <div>
+                      <label for="AntithrombinIII">Antithrombin III</label>
+                      <input
+                        type="text"
+                        id="AntithrombinIII"
+                        style="width: 120px"
+                      />
+                    </div>
+                    <div>
+                      <label for="Anticarviolipin">Anticarviolipin</label>
+                      <input
+                        type="text"
+                        id="Anticarviolipin"
+                        style="width: 120px"
+                      />
+                    </div>
+                  </section>
+                  <section>
+                    <div>
+                      <label for="AntiLupus">AntiLupus</label>
+                      <input type="text" id="AntiLupus" style="width: 120px" />
+                    </div>
+                    <div>
+                      <label for="Anticoagulant">Anticoagulant</label>
+                      <input
+                        type="text"
+                        id="Anticoagulant"
+                        style="width: 120px"
+                      />
+                    </div>
+                  </section>
+                  <section>
+                    <div>
+                      <label for="ANA">ANA</label>
+                      <input type="text" id="ANA" style="width: 120px" />
+                    </div>
+                    <div>
+                      <label for="ANCA">ANCA</label>
+                      <input type="text" id="ANCA" style="width: 120px" />
+                    </div>
+                  </section>
+                </div>
+                <section
+                  style="
+                    display: flex;
+                    justify-content: center;
+                    margin-top: 20px;
+                  "
+                >
+                  <div class="lastdiv">
+                    <label for="Factor">Factor V mutation gene</label>
+                    <input type="text" id="Factor" style="width: 120px" />
+                  </div>
+                </section>
+              </div>
+            </section>
+          </article>
+        </div>
+        <div style="display: flex; justify-content: center; margin-top: 10px">
+          <button type="submit" id="savenessabtn" class="btn btn-primary">
+            حفظ
+          </button>
+        </div>
+      </section>
+    </form>
+  </section>
+</div>
+{% endblock %} {% block custom_js %}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+<script>
+  let picturesNumber = 0;
+  let cardpictures = [];
+  let currentIndex = 0;
+  function getvasculardata(pk) {
+    $.ajax({
+      type: "GET",
+      url: "/accounts/getvasculardata/",
+      data: {
+        pk: pk,
+        csrfmiddlewaretoken: $("input[name=csrfmiddlewaretoken]").val(),
+      },
+      success: function (response) {
+        if (response.success) {
+          if (response.success == "no data") {
+            alert(response.success);
+          } else {
+            let vascularcard = response.success;
+            // $("#childnumber").val(vascularcard.childrennumber);
+            $("#HB").val(vascularcard.HB);
+            $("#PLT").val(vascularcard.PLT);
+            $("#WBC").val(vascularcard.WBC);
+            $("#RBC").val(vascularcard.RBC);
+            $("#HTC").val(vascularcard.HTC);
+            $("#Cholesterol").val(vascularcard.Cholesterol);
+            $("#TGC").val(vascularcard.TGC);
+            $("#LDL").val(vascularcard.LDL);
+            $("#HDL").val(vascularcard.HDL);
+            $("#VLDL").val(vascularcard.VLDL);
+            $("#Urea").val(vascularcard.Urea);
+            $("#CREATE").val(vascularcard.CREATE);
+            $("#SGOT").val(vascularcard.SGOT);
+            $("#SGPT").val(vascularcard.SGPT);
+            $("#PT").val(vascularcard.PT);
+            $("#INR").val(vascularcard.INR);
+            $("#HbA1c").val(vascularcard.HbA1c);
+            $("#Ddimer").val(vascularcard.Ddimer);
+            $("#FBS").val(vascularcard.FBS);
+            $("#PPBS").val(vascularcard.PPBS);
+            $("#caTotal").val(vascularcard.caTotal);
+            $("#caIoized").val(vascularcard.caIoized);
+            $("#ESR").val(vascularcard.ESR);
+            $("#CRP").val(vascularcard.CRP);
+            $("#PTNC").val(vascularcard.PTNC);
+            $("#PTNS").val(vascularcard.PTNS);
+            $("#AntithrombinIII").val(vascularcard.AntithrombinIII);
+            $("#Anticarviolipin").val(vascularcard.Anticarviolipin);
+            $("#AntiLupus").val(vascularcard.AntiLupus);
+            $("#Anticoagulant").val(vascularcard.Anticoagulant);
+            $("#ANA").val(vascularcard.ANA);
+            $("#ANCA").val(vascularcard.ANCA);
+            $("#Factor").val(vascularcard.Factor);
+          }
+        }
+        if ("message" in response) {
+          alert("الرجاء ادخال تاريخ صالح");
+        }
+        if ("error" in response) {
+          console.error(response.error);
+        }
+      },
+      error: function (xhr, status, error) {
+        console.log("Error occurred: ", error);
+        console.log("XHR: ", xhr);
+      },
+    });
+  }
+  function clearForm() {
+    $("#HB").val("");
+    $("#PLT").val("");
+    $("#WBC").val("");
+    $("#RBC").val("");
+    $("#HTC").val("");
+    $("#Cholesterol").val("");
+    $("#TGC").val("");
+    $("#LDL").val("");
+    $("#HDL").val("");
+    $("#VLDL").val("");
+    $("#Urea").val("");
+    $("#CREATE").val("");
+    $("#SGOT").val("");
+    $("#SGPT").val("");
+    $("#PT").val("");
+    $("#INR").val("");
+    $("#HbA1c").val("");
+    $("#Ddimer").val("");
+    $("#FBS").val("");
+    $("#PPBS").val("");
+    $("#caTotal").val("");
+    $("#caIoized").val("");
+    $("#ESR").val("");
+    $("#CRP").val("");
+    $("#PTNC").val("");
+    $("#PTNS").val("");
+    $("#AntithrombinIII").val("");
+    $("#Anticarviolipin").val("");
+    $("#AntiLupus").val("");
+    $("#Anticoagulant").val("");
+    $("#ANA").val("");
+    $("#ANCA").val("");
+    $("#Factor").val("");
+  }
+  function setvasculardata(pk) {
+    $.ajax({
+      type: "POST",
+      url: "/accounts/setvasculardata/",
+      data: {
+        pk: pk,
+        HB: $("#HB").val(),
+        PLT: $("#PLT").val(),
+        WBC: $("#WBC").val(),
+        RBC: $("#RBC").val(),
+        HTC: $("#HTC").val(),
+        Cholesterol: $("#Cholesterol").val(),
+        TGC: $("#TGC").val(),
+        LDL: $("#LDL").val(),
+        HDL: $("#HDL").val(),
+        VLDL: $("#VLDL").val(),
+        Urea: $("#Urea").val(),
+        CREATE: $("#CREATE").val(),
+        SGOT: $("#SGOT").val(),
+        SGPT: $("#SGPT").val(),
+        PT: $("#PT").val(),
+        INR: $("#INR").val(),
+        HbA1c: $("#HbA1c").val(),
+        Ddimer: $("#Ddimer").val(),
+        FBS: $("#FBS").val(),
+        PPBS: $("#PPBS").val(),
+        caTotal: $("#caTotal").val(),
+        caIoized: $("#caIoized").val(),
+        ESR: $("#ESR").val(),
+        CRP: $("#CRP").val(),
+        PTNC: $("#PTNC").val(),
+        PTNS: $("#PTNS").val(),
+        AntithrombinIII: $("#AntithrombinIII").val(),
+        Anticarviolipin: $("#Anticarviolipin").val(),
+        AntiLupus: $("#AntiLupus").val(),
+        Anticoagulant: $("#Anticoagulant").val(),
+        ANA: $("#ANA").val(),
+        ANCA: $("#ANCA").val(),
+        Factor: $("#Factor").val(),
+        csrfmiddlewaretoken: $("input[name=csrfmiddlewaretoken]").val(),
+      },
+      success: function (response) {
+        clearForm();
+        getvasculardata(pk);
+        if (response.success) {
+          alert(response.success);
+        } else {
+          console.error(response);
+        }
+      },
+      error: function (xhr, status, error) {
+        console.log("Error occurred: ", error);
+        console.log("XHR: ", xhr);
+      },
+    });
+  }
+  function getvascularpics() {
+    patientcardid = "{{primarykey}}";
+    $.ajax({
+      type: "GET",
+      url: "/accounts/getvascularpics/",
+      data: {
+        patientcardid: patientcardid,
+        csrfmiddlewaretoken: $("input[name=csrfmiddlewaretoken]").val(),
+      },
+      success: function (response) {
+        if (response.success) {
+          let vascularpictures = response.success;
+          $("#scrollable-container").empty();
+          picturesNumber = vascularpictures.length;
+          let picture = vascularpictures.forEach((picture) => {
+            $("#scrollable-container").append(
+              `<div class="card"><img class="w-100 h-100" src="${picture.picture}" alt=""></div>`
+            );
+          });
+          cardpictures = [];
+          vascularpictures.forEach((picture) => {
+            cardpictures.push(picture.picture);
+          });
+        }
+        if ("message" in response) {
+          alert("الرجاء ادخال تاريخ صالح");
+        }
+        if ("error" in response) {
+          console.error(response.error);
+        }
+      },
+      error: function (xhr, status, error) {
+        console.log("Error occurred: ", error);
+        console.log("XHR: ", xhr);
+      },
+    });
+  }
+  function addvascularpics(pk) {
+    var formData = new FormData();
+    if ($("#vascularcardImg").length > 0) {
+      formData.append("vascularImg", $("#vascularcardImg")[0].files[0]);
+    }
+    formData.append(
+      "csrfmiddlewaretoken",
+      $("input[name=csrfmiddlewaretoken]").val()
+    );
+    formData.append("patientcardid", pk);
+    $.ajax({
+      type: "POST",
+      url: "/accounts/addvascularpics/",
+      data: formData,
+      contentType: false,
+      processData: false,
+      success: function (response) {
+        if (response.success) {
+          alert(response.success);
+          getvascularpics();
+        } else {
+          console.error(response);
+        }
+      },
+      error: function (xhr, status, error) {
+        console.log("Error occurred: ", error);
+        console.log("XHR: ", xhr);
+      },
+    });
+  }
+  function getnextpic() {
+    currentIndex++;
+    if (currentIndex >= cardpictures.length) {
+      currentIndex = 0;
+    }
+    let currimage = $("#modalpic");
+
+    currimage.attr("src", cardpictures[currentIndex]);
+  }
+  function getprevpic() {
+    currentIndex--;
+    if (currentIndex < 0) {
+      currentIndex = cardpictures.length - 1;
+    }
+    let currimage = $("#modalpic");
+
+    currimage.attr("src", cardpictures[currentIndex]);
+  }
+  $(document).ready(function () {
+    // getvascularpics();
+    clearForm();
+    getvasculardata("{{primarykey}}");
+    $(document).on("submit", "#vascularForm", function (e) {
+      e.preventDefault();
+      setvasculardata("{{primarykey}}");
+    });
+    $(document).on("submit", "#vascularpicsForm", function (e) {
+      e.preventDefault();
+      addvascularpics("{{primarykey}}");
+    });
+    $("#showpic").on("click", function (e) {
+      $("#modalpic").attr("src", cardpictures[0]);
+    });
+    $("#modalnext").on("click", function (e) {
+      getnextpic();
+    });
+    $("#modalprev").on("click", function (e) {
+      getprevpic();
+    });
+    // setInterval(getvascularpics, 1000);
+  });
+</script>
+<script src="{% static 'js/bootstrap.bundle.js' %}"></script>
+{% endblock %}

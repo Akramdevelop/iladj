@@ -1,0 +1,299 @@
+:root {
+  --main-color: blue;
+  --second-color: #72cad3;
+}
+
+.main-container {
+  width: 100%;
+  height: 98vh;
+  margin: 4px;
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap-reverse;
+}
+
+.logout {
+  padding: 5px;
+}
+
+.left-side {
+  width: 64%;
+  background: white;
+  height: 98%;
+  overflow: auto;
+  /* Added By Back-end Developer */
+  overflow: auto;
+  padding-bottom: 15px;
+}
+
+.right-side {
+  width: 30%;
+  background: blue;
+  height: 98%;
+  /* display: flex; */
+  justify-content: center;
+}
+
+.search-box {
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.search-box input {
+  height: 30px;
+}
+
+#sub:focus {
+  outline: none;
+}
+
+#search:focus {
+  outline: none;
+}
+
+.head {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.logo-image {
+  margin-top: 15px;
+  margin-left: 15px;
+  width: fit-content;
+}
+
+.head h3 {
+  font-size: x-large;
+  font-weight: bold;
+}
+
+.customer {
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: auto;
+}
+
+.names {
+  width: 80%;
+  margin-top: 20px;
+  background-color: white;
+  display: flex;
+  justify-content: center;
+  height: 82vh;
+  border-radius: 10px;
+  overflow: auto;
+}
+
+/* p{
+  flex: flex;
+  flex-direction: end;
+  color: blue ;
+  padding-top: 5px;
+  font-size: larger;
+  font-weight: bold;
+} */
+
+/* added by back-end developer */
+._name {
+  width: 90%;
+}
+.white-space-normal {
+  white-space: normal;
+}
+
+.names button {
+  /* width: 70%; */ /* deleted by back-end develpoer */
+  /* height: 30px; */ /* deleted by back-end develpoer */
+  min-height: 30px;
+  margin-top: 5px;
+  outline: none;
+  border: none;
+  background-color: white;
+}
+
+a {
+  text-decoration: none;
+  margin: 2px;
+}
+
+div {
+  border-radius: 5px;
+}
+
+.data {
+  direction: rtl;
+  display: flex;
+  justify-content: space-around;
+}
+
+.form_1 {
+  width: 100%;
+  direction: rtl;
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+}
+.data .form_1 {
+  margin-top: 5%;
+}
+
+.form_1 input,
+.form_1 a {
+  margin-top: 5px;
+}
+
+.form_1 div {
+  margin: 5px;
+}
+
+.form_1 input:focus {
+  outline: none;
+}
+
+.form_1 label {
+  font-size: larger;
+}
+
+.second {
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  /* chacnged by backend developer */
+  column-gap: 80px;
+}
+
+.info {
+  display: flex;
+  gap: 5px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.submit {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+textarea {
+  text-align: center;
+  resize: none;
+  overflow: auto;
+}
+
+.information {
+  display: flex;
+  flex-wrap: wrap;
+  width: 100%;
+  justify-content: center;
+}
+
+#date,
+#dateLabel {
+  font-weight: bold;
+}
+
+#dateLabel {
+  color: blue;
+}
+
+.second-form {
+  width: 90%;
+  display: flex;
+  justify-content: center;
+  align-items: start;
+}
+
+.second-form a {
+  font-weight: bold;
+}
+
+.selected {
+  background-color: blueviolet;
+}
+
+@media (max-width: 1023px) {
+  .left-side {
+    width: 100%;
+    margin-bottom: -1100px;
+    height: 145vh;
+  }
+
+  .right-side {
+    width: 100%;
+  }
+
+  .info {
+    width: min-content;
+  }
+
+  .second {
+    justify-content: center;
+    gap: 0;
+  }
+
+  .names button {
+    font-size: 100%;
+  }
+}
+
+@media only screen and (max-width: 1439px) and (min-width: 1024px) {
+  .info {
+    margin-top: 30px;
+  }
+
+  .img-medicine {
+    width: 100%;
+    height: 50vh;
+  }
+}
+
+.modal-content {
+  width: 98vw;
+  height: 95vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-title {
+  width: 120px;
+}
+
+.model-body {
+  width: 100vw;
+  height: 100vh;
+  overflow: auto;
+}
+
+.modal-header {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.model-body img {
+  width: 50vw;
+  height: 50vh;
+}
+
+@media (max-width: 1023px) {
+  .img-medicine {
+    width: 97vw;
+    height: 50vh;
+  }
+
+  .model-body {
+    width: 100vw;
+  }
+}
+
+/* added bu back-end */
+.modal-body {
+  overflow: auto;
+}
